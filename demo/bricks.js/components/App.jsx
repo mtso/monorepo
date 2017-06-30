@@ -5,13 +5,13 @@ import { addPics } from '../'
 
 const App = ({ pics, initBricks, addPics }) => (
   <div>
-    <p>picdemo</p>
-    <button onClick={addPics}>Add 5</button>
+    <h1>picdemo <button onClick={addPics}>Add 5 Pics</button></h1>
+    
     <div id='bricks' ref={(node) => {
       initBricks(node)
     }}>
       { pics.map((p) => (
-        <div key={p.id} style={{width:300, height:450}}>
+        <div key={p.id} className='tile'>
           <img src={p.image_url} />
           <p>{p.id}: {p.caption}</p>
         </div>

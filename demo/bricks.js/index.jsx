@@ -24,11 +24,14 @@ export const addPics = () => {
 }
 
 const sizes = [
-  { columns: 3, gutter: 10 },
+  { columns: 2, gutter: 10 },
+  { mq: '940px', columns: 3, gutter: 10 },
+  { mq: '1250px', columns: 4, gutter: 10},
+  { mq: '1560px', columns: 5, gutter: 10},
+  { mq: '1870px', columns: 6, gutter: 10},  
 ]
 
 let bricks = null
-
 let isPacked = false
 
 const initBricks = (node) => {
@@ -38,11 +41,11 @@ const initBricks = (node) => {
     sizes,
     position: false,
   })
+  bricks.resize(true)
 
   if (!isPacked) {
     bricks.pack()
   } else {
-    console.log('updating')
     bricks.update()
   }
 }
@@ -53,7 +56,7 @@ document.body.appendChild(mount)
 
 render(
   <Provider store={store}>
-    <App bricks={bricks} initBricks={initBricks} />
+    <App initBricks={initBricks} />
   </Provider>,
   mount
 )
