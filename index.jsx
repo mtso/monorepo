@@ -28,7 +28,6 @@ const sizes = [
 ]
 
 let bricks = null
-
 let isPacked = false
 
 const initBricks = (node) => {
@@ -53,7 +52,7 @@ document.body.appendChild(mount)
 
 render(
   <Provider store={store}>
-    <App bricks={bricks} initBricks={initBricks} />
+    <App initBricks={initBricks} />
   </Provider>,
   mount
 )

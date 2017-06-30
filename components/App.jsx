@@ -5,8 +5,8 @@ import { addPics } from '../'
 
 const App = ({ pics, initBricks, addPics }) => (
   <div>
-    <p>picdemo</p>
-    <button onClick={addPics}>Add 5</button>
+    <h1>picdemo <button onClick={addPics}>Add 5 Pics</button></h1>
+    
     <div id='bricks' ref={(node) => {
       initBricks(node)
     }}>
