@@ -11,7 +11,7 @@ const App = ({ pics, initBricks, addPics }) => (
       initBricks(node)
     }}>
       { pics.map((p) => (
-        <div key={p.id} style={{width:300, height:450}}>
+        <div key={p.id} style={{width:300, height:450}} className='tile'>
           <img src={p.image_url} />
           <p>{p.id}: {p.caption}</p>
         </div>

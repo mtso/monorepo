@@ -1,2 +1,14 @@
+.tile {
+  // &:nth-child(3) {
+  //   transition: translate3d 1s;
+  // }
+  transition: translate3d 0.4s;
+}
 
-
+// @for $i from 1 to 100 {
+//   .tile:nth-child(#{$i}) {
+//     -webkit-transition-delay: 0.2s * $i;
+//     transition-delay: 0.1s * $i;
+//   }
+// }
+  
