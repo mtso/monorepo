@@ -7,7 +7,13 @@ const pics = (state = [], action) => {
         ...action.pics,
         ...state,
       ]
-      
+    
+    case 'APPEND_PICS':
+      return [
+        ...state,
+        ...action.pics,
+      ]
+        
     default:
       return state
   }

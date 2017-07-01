@@ -23,6 +23,14 @@ export const addPics = () => {
   }
 }
 
+export const appendPics = () => {
+  const newpics = gen.getFive()
+  return {
+    type: 'APPEND_PICS',
+    pics: newpics,
+  }
+}
+
 const sizes = [
   { columns: 2, gutter: 10 },
   { mq: '940px', columns: 3, gutter: 10 },

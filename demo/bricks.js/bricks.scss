@@ -1,5 +1,9 @@
 .tile {
-  transition: translate3d 0.4s;
+  // -webkit-transition: translate3d 0.4s;
+  transition: all 0.22s;
+  -webkit-transition: all 0.22s;
+
+  transition-timing-function: ease-in;
 
   width: 300px;
   height: 450px;

@@ -93,7 +93,7 @@ class Generator {
   getFive = () => {
     const pics = []
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 1; i++) {
       pics.unshift(this.createPic())
     }
 
