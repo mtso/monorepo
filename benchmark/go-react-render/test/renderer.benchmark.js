@@ -8,6 +8,9 @@ suite
   .add('renderMarkup[url="/"]', function() {
     renderMarkup({ state: { name: 'world' }, url: '/' });
   })
+  .add('renderMarkup[url="/foo"]', function() {
+    renderMarkup({ state: { name: 'world' }, url: '/foo' });
+  })
   .on('cycle', function(event) {
     console.log(String(event.target));
   })
