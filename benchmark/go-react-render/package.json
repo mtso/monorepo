@@ -4,7 +4,8 @@
   "scripts": {
     "test": "mocha spec/",
     "build": "webpack",
-    "testbuild": "npm run build && npm test"
+    "testbuild": "npm run build && npm test",
+    "benchmark": "node ./test/renderer.benchmark.js"
   },
   "devDependencies": {
     "benchmark": "^2.1.4",

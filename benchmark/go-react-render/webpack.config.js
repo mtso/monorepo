@@ -55,7 +55,6 @@ module.exports = [
       path: path.resolve(__dirname, 'build'),
       filename: '[name].js',
       libraryTarget: 'commonjs',
-      // library: 'renderMarkup',
     },
     resolve: { extensions: [ '.js', '.jsx' ] },
     module: {
