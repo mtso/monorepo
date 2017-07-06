@@ -13,4 +13,5 @@ Path | Description
 `demo/charp-tcp-server/` | Web server implemented using .NET's TCPListener.
 `demo/goja/` | Run JavaScript from Go.
 `demo/middleware-go/` | Logging middleware that wraps the native http.ResponseWriter.
+`demo/node-cluster/` | Handle parallel HTTP requests by spawning a worker for each CPU.
 `demo/tcp-client-server/` | Simple Go TCP server and client.
