@@ -14,10 +14,10 @@ func main() {
 	ln, err := net.Listen(scheme, ":"+port)
 	check(err)
 
-	conn, err := ln.Accept()
-	check(err)
-
 	for {
+		conn, err := ln.Accept()
+		check(err)
+
 		msg, err := bufio.NewReader(conn).ReadString('\n')
 		check(err)
 
