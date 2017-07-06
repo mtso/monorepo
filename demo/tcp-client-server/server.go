@@ -18,13 +18,17 @@ func main() {
 		conn, err := ln.Accept()
 		check(err)
 
-		msg, err := bufio.NewReader(conn).ReadString('\n')
-		check(err)
-
-		fmt.Print("Message received:", string(msg))
-		resp := "Echo: " + string(msg)
-		conn.Write([]byte(resp + "\n"))
+		go handleConnection(conn)
 	}
+}
+
+func handleConnection(conn net.Conn) {
+	msg, err := bufio.NewReader(conn).ReadString('\n')
+	check(err)
+
+	fmt.Print("Message received:", string(msg))
+	resp := "Echo: " + string(msg)
+	conn.Write([]byte(resp + "\n"))
 }
 
 func check(err error) {
