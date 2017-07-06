@@ -6,8 +6,8 @@ My big bucket of source code.
 
 Path | Description
 ---- | -----------
-`benchmark/go-react-render/` | 
-`bin` | bin script sources.
+`benchmark/go-react-render/` | Minimal React app to benchmark server-side rendering.
+`bin/` | bin script sources.
 `demo/bricks.js/` | Integrate bricks.js masonry layout into React.
 `demo/chocolate-bar/` | Bare-minimum authenticated web app in React, React Router, and Redis.
 `demo/charp-tcp-server/` | Web server implemented using .NET's TCPListener.
