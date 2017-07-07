@@ -1,9 +1,7 @@
 #include <stdio.h>
 
-int check(int want, int got)
-{
-    if (want != got)
-    {
+int check(int want, int got) {
+    if (want != got) {
         printf("FAIL %s:%d: %d != %d\n", __FILE__, __LINE__, want, got);
         return 0;
     }
@@ -12,8 +10,7 @@ int check(int want, int got)
 
 const int SIZE = 10;
 
-int main()
-{
+int main() {
     int arr[SIZE] = {1, 2, 3, 4};
 
     if (!check(1, 2)) {
