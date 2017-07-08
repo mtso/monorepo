@@ -72,6 +72,7 @@ func NewRouter() *mux.Router {
 				"message": ErrNoTitle,
 			}
 			WriteResponse(w, resp)
+			return
 		}
 
 		id := models.RandomId()
@@ -115,7 +116,6 @@ func ParseBody(reader io.ReadCloser) (JSON, error) {
 	var raw interface{}
 
 	err := decoder.Decode(&raw)
-
 	if err != nil {
 		return nil, err
 	}
