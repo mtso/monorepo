@@ -20,4 +20,5 @@ Path | Description
 `demo/react-router/` | Basic follow-along with the react-router v4 documentation.
 `demo/socket-client-server/` | **WIP** C socket server and client.
 `demo/tcp-client-server/` | Simple Go TCP server and client.
+`src/elo-service/` | League management service that calculates player ELO ratings.
 `src/indexer/` | Recursively crawl a repository's README files.
