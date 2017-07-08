@@ -8,7 +8,7 @@ const (
 	BASE     = 200
 )
 
-func TransferPoints(win, lose, base int) int {
+func TransferPoints(win, lose, base int64) int64 {
 	winfloat := float64(win)
 	losefloat := float64(lose)
 
@@ -20,5 +20,5 @@ func TransferPoints(win, lose, base int) int {
 
 	winloss := ((losefloat - winfloat) / POINTMAX) * points
 	points += winloss
-	return int(math.Floor(points))
+	return int64(math.Floor(points))
 }

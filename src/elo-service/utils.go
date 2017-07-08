@@ -9,7 +9,11 @@ import (
 func WriteResponse(w http.ResponseWriter, js interface{}, code ...int) {
 	switch js.(type) {
 	case error:
-		http.Error(w, js.(error).Error(), http.StatusInternalServerError)
+		status := http.StatusInternalServerError
+		if len(code) > 0 {
+			status = code[0]
+		}
+		http.Error(w, js.(error).Error(), status)
 	default:
 		break
 	}

@@ -20,6 +20,9 @@ const (
 	InsertLeague = `INSERT INTO Leagues (id, display_name)
 		VALUES ($1, $2)
 		RETURNING id, display_name, created_at`
+
+	SelectLeague = `SELECT id, display_name, created_at
+		FROM Leagues WHERE id = $1`
 )
 
 type League struct {
@@ -49,4 +52,15 @@ func RandomId() string {
 func HashId(in []byte) string {
 	h := sha256.Sum224(in)
 	return fmt.Sprintf("%x", h)[:24]
+}
+
+func GetLeagueById(id interface{}, tx ...*sql.Tx) (lg League, err error) {
+	var row *sql.Row
+	if len(tx) > 0 {
+		row = tx[0].QueryRow(SelectLeague, id)
+	} else {
+		row = Conn.db.QueryRow(SelectLeague, id)
+	}
+	err = row.Scan(&lg.Id, &lg.Title, &lg.CreatedAt)
+	return
 }

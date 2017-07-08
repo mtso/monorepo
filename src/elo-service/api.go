@@ -5,12 +5,17 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/mux"
+
 	"github.com/mtso/monorepo/src/elo-service/models"
 )
 
 type JSON map[string]interface{}
 
 var ErrNoTitle = errors.New("Request is missing 'title' field")
+var ErrNoWinner = errors.New("Request is missing 'winner' field")
+var ErrNoLoser = errors.New("Request is missing 'loser' field")
+var ErrNoId = errors.New("Path is missing 'id' param")
 
 func NewLeague(w http.ResponseWriter, r *http.Request) {
 	body, err := ParseBody(r.Body)
@@ -44,7 +49,14 @@ func NewLeague(w http.ResponseWriter, r *http.Request) {
 	WriteResponse(w, resp)
 }
 
-func NewGame(w http.ResponseWriter, r *http.Request) {
+func AddGame(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	leagueid, ok := vars["id"]
+	if !ok {
+		WriteResponse(w, ErrNoId, http.StatusBadRequest)
+		return
+	}
+
 	body, err := ParseBody(r.Body)
 	if err != nil {
 		log.Println(err)
@@ -52,5 +64,33 @@ func NewGame(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, _ = body["title"]
+	winner, ok := body["winner"]
+	if !ok {
+		WriteResponse(w, ErrNoWinner, http.StatusBadRequest)
+		return
+	}
+
+	loser, ok := body["loser"]
+	if !ok {
+		WriteResponse(w, ErrNoLoser, http.StatusBadRequest)
+		return
+	}
+
+	calcElo := func(w, l models.Player) int64 {
+		return TransferPoints(w.Elo, l.Elo, BASE)
+	}
+
+	// If params are ok (has leagueid, winner, loser)
+	// Get winner and loser
+	gm, err := models.AddGame(leagueid, winner, loser, calcElo)
+	if err != nil {
+		WriteResponse(w, err)
+		return
+	}
+
+	resp := JSON{
+		"ok":   true,
+		"game": gm,
+	}
+	WriteResponse(w, resp)
 }
