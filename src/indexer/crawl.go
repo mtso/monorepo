@@ -20,9 +20,9 @@ func main() {
 	crawlDir(".", func(dirname, filename string) {
 		if !readmePattern.MatchString(filename) {
 			return
-	    }
+		}
 
-	    // Read contents if it is a README file.
+		// Read contents if it is a README file.
 		readme, err := ioutil.ReadFile(path.Join(dirname, filename))
 		if err != nil {
 			return

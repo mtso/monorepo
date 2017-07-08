@@ -1,5 +1,8 @@
 # ELO leaderboard service
 
+[summary]::
+League management service that calculates player ELO ratings.
+
 ## User Stories
 - I can create a new league.
 - I can add a new game with a winner and loser to a league.

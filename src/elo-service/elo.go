@@ -1,7 +1,6 @@
 package main
 
 import "math"
-import "log"
 
 const (
 	POINTMAX = 3000
@@ -22,9 +21,4 @@ func TransferPoints(win, lose, base int) int {
 	winloss := ((losefloat - winfloat) / POINTMAX) * points
 	points += winloss
 	return int(math.Floor(points))
-}
-
-func main() {
-	pt := TransferPoints(2000, 1000, BASE)
-	log.Println(pt)
 }
