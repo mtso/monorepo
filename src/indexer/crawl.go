@@ -7,8 +7,6 @@ import (
 	"regexp"
 )
 
-const Version = 1
-
 var readmePattern = regexp.MustCompile("(?i)README")
 
 type Content struct {
@@ -30,7 +28,6 @@ func main() {
 		}
 	})
 
-	// fmt.Println(content)
 	PrintContents(content)
 }
 
