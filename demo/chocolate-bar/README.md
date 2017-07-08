@@ -1,3 +1,4 @@
 # Chocolate Bar
 
-Bare minimum authenticated web app with react, passport, and redis.
+[summary]::
+Bare-minimum authenticated web app in React, React Router, and Redis.

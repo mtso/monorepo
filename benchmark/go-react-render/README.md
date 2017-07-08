@@ -1,5 +1,7 @@
 # go react render
 
+[summary]::
+Minimal React app to benchmark server-side rendering.  
 Simple React app and server-side render script for testing Golang server-side rendering.
 
 ## Rendering API
