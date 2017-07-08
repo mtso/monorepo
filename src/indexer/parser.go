@@ -1,10 +1,10 @@
 package main
 
 import (
-    "errors"
-    "regexp"
-    "fmt"
-    "io/ioutil"
+	"errors"
+	"fmt"
+	"io/ioutil"
+	"regexp"
 )
 
 var summaryPattern = regexp.MustCompile("(?:\\n\\[summary\\]::[^\\n]*\\n)([^\\n]*)(?:\\n)")
@@ -30,15 +30,4 @@ func main() {
 	}
 	fmt.Printf("%s\n", sum)
 
-	match := summaryPattern.FindSubmatch(rm)
-
-	for i, v := range match {
-		fmt.Printf("%d: %s\n", i, v)
-	}
-
-	// idx := summaryPattern.FindSubmatchIndex(rm)
-	// fmt.Printf("%s", rm)
-	// fmt.Printf("%s\n", rm[idx[2]:idx[3]])
-	// summaryPattern.FindAllSubmatch(rm, -1)[0][1]
-	// fmt.Printf("%s\n", )
 }
