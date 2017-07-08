@@ -14,7 +14,7 @@ const (
 	CreateTableLeagues = `CREATE TABLE IF NOT EXISTS Leagues (
 		    id varchar(24) NOT NULL UNIQUE PRIMARY KEY,
 		    display_name varchar(256) NOT NULL,
-		    created_at timestamp NOT NULL DEFAULT CURRENT_DATE
+		    created_at timestamp NOT NULL DEFAULT NOW()
 		)`
 
 	InsertLeague = `INSERT INTO Leagues (id, display_name)
