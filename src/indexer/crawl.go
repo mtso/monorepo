@@ -33,7 +33,7 @@ func main() {
 
 func PrintContents(table []Content) {
 	for _, content := range table {
-		fmt.Printf("%s/ | %s\n", content.Dirname, content.Summary)
+		fmt.Printf("`%s/` | %s\n", content.Dirname, content.Summary)
 	}
 }
 
