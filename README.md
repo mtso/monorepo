@@ -23,4 +23,4 @@ Path | Description
 `src/bin/` | `bin` is a library of executable scripts and the sources to compile them.
 `src/elo-service/` | League management service that calculates player ELO ratings.
 `src/indexer/` | Recursively crawl a repository's README files.
-`src/realworld/` | Go codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
+`src/realworld/` | Go web app implementing the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
