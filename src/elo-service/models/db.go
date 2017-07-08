@@ -10,8 +10,6 @@ var Conn struct {
 	db *sql.DB
 }
 
-// var dbconn *db.SQL
-
 func Connect(connstring string) (*sql.DB, error) {
 	conn, err := sql.Open("postgres", connstring)
 	if err != nil {

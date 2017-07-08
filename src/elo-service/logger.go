@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"time"
 )
 
 type middleware struct {
@@ -27,10 +28,12 @@ func LogHandler(handler http.Handler) http.Handler {
 	return &middleware{
 		handler: func(w http.ResponseWriter, r *http.Request) {
 			lw := &logwriter{w, 200}
+			start := time.Now()
 
 			handler.ServeHTTP(lw, r)
 
-			log.Printf("%d %s %s", lw.status, r.Method, r.URL.Path)
+			delta := time.Now().Sub(start)
+			log.Printf("%d %s %s %s", lw.status, r.Method, r.URL.Path, delta)
 		},
 	}
 }

@@ -16,20 +16,9 @@ const (
 		created_at timestamp NOT NULL DEFAULT NOW()
 		)`
 
-	InsertGame = `IF EXISTS (SELECT 1 FROM Leagues WHERE id = $1) THEN
-			INSERT INTO Games (league_id, winner_id, loser_id)
+	InsertGame = `INSERT INTO Games (league_id, winner_id, loser_id)
 			VALUES ($1, $2, $3)
-			RETURNING id, created_at
-		END IF`
-
-	// SelectGame = `SELECT DISTINCT ON (Games.id)
-	// 	Games.id,
-	// 	Games.created_at,
-	// 	Players.id,
-	// 	Players.
-
-	// 	FROM Games, Players
-	// 	`
+			RETURNING id, created_at`
 )
 
 type Game struct {
@@ -57,16 +46,11 @@ func AddGame(leagueid, winnername, losername interface{}, calcHandler func(Playe
 		return gm, err
 	}
 
-	// if league exists:
-	// get winner and loser players by leagueid
-	//
-	// calculate transfer points
-	//
-
 	winner, err := GetOrInsertPlayer(leagueid, winnername, tx)
 	if err != nil {
 		return
 	}
+
 	loser, err := GetOrInsertPlayer(leagueid, losername, tx)
 	if err != nil {
 		return
@@ -87,6 +71,11 @@ func AddGame(leagueid, winnername, losername interface{}, calcHandler func(Playe
 
 	row := tx.QueryRow(InsertGame, leagueid, winner.Id, loser.Id)
 	err = row.Scan(&gm.Id, &gm.CreatedAt)
+	if err != nil {
+		return
+	}
+
+	err = tx.Commit()
 	if err != nil {
 		return
 	}

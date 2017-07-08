@@ -14,22 +14,39 @@ const (
 		elo int NOT NULL DEFAULT 1000
 		)`
 
-	SelectOrInsertPlayer = `INSERT INTO Players (league_id, display_name)
-		VALUES ($1, $2)
-		WHERE NOT EXISTS (
-			SELECT * FROM Players 
+	SelectOrInsertPlayer = `WITH ExistingPlayer as (
+			SELECT id, league_id, display_name, elo
+			FROM Players
 			WHERE league_id = $1
-			AND display_name = $2
-			)
-		RETURNING id, league_id, display_name, elo`
+					AND display_name = $2
+		), NewPlayer as (
+			INSERT into Players (league_id, display_name)
+			SELECT $1, $2
+			WHERE NOT EXISTS (SELECT 1 from ExistingPlayer)
+			returning id, league_id, display_name, elo
+		)
+		SELECT id, league_id, display_name, elo
+		FROM NewPlayer
+		union all select id, league_id, display_name, elo
+		FROM ExistingPlayer`
+
+	// SelectOrInsertPlayer = `INSERT INTO Players (league_id, display_name)
+	// 	SELECT CAST($1 AS VARCHAR), CAST($2 AS VARCHAR)
+	// 	FROM Players
+	// 	WHERE NOT EXISTS (
+	// 		SELECT 1 FROM Players
+	// 		WHERE league_id = $1
+	// 		AND display_name = $2
+	// 		)
+	// 	SELECT id, league_id, display_name, elo
+	// 	    FROM Players
+	// 	    WHERE league_id = $1
+	// 		AND display_name = $2`
+	// RETURNING id, league_id, display_name, elo`
 
 	UpdatePlayerQuery = `UPDATE Players
 		SET elo = $2
 		WHERE id = $1`
-
-	// SavePlayerQuery = `UPDATE Players
-	// 	SET
-	// 	WHERE id = $1`
 )
 
 type Player struct {
@@ -63,18 +80,3 @@ func (pl *Player) Save(tx ...*sql.Tx) (err error) {
 	}
 	return
 }
-
-// func (pl *Player) UpdatePlayer(elo interface{}, tx ...*sql.Tx) (err error) {
-// 	if len(tx) > 0 {
-// 		err = tx.Exec(UpdatePlayerQuery, pl.Id, elo)
-// 	} else {
-// 		err = Conn.db.Exec(UpdatePlayerQuery, pl.Id, elo)
-// 	}
-
-// 	if err != nil {
-// 		return
-// 	}
-
-// 	pl.Elo = elo.(int64)
-// 	return
-// }

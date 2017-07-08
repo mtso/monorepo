@@ -36,6 +36,41 @@ func Test_NewLeague(t *testing.T) {
 	assert(league["title"], "Debauchery Tea Party", "Should return league title")
 }
 
+func Test_AddGame(t *testing.T) {
+	assert := NewAssert(t)
+	must := NewMust(t)
+
+	app := newApp()
+	defer app.Db.Close()
+	ts := httptest.NewServer(app.Handler)
+	defer ts.Close()
+
+	buf := bytes.NewBuffer([]byte(`{"title":"New World Cup"}`))
+	resp, err := http.Post(ts.URL+"/api/new", "application/json", buf)
+	body, err := ParseResponseBody(resp)
+	must(err, nil, "Should JSON-encode response")
+	league, ok := body["league"]
+	must(ok, true, "Should contain league")
+
+	leagueid, ok := league.(map[string]interface{})["id"]
+
+	buf = bytes.NewBuffer([]byte(`{"winner":"foo","loser":"bar"}`))
+	resp, err = http.Post(ts.URL+"/api/"+leagueid.(string), "application/json", buf)
+	assert(resp.StatusCode, 200, "Should be status OK")
+
+	body, err = ParseResponseBody(resp)
+	must(err, nil, "Should JSON-encode response")
+
+	game, ok := body["game"]
+	must(ok, true, "Should have game field")
+
+	winner, ok := game.(map[string]interface{})["winner"]
+	must(ok, true, "Should have winner field")
+
+	username, ok := winner.(map[string]interface{})["username"]
+	assert(username, "foo", "Should be the POSTed name")
+}
+
 // NewAssert makes an assert func(i{}, i{}, ...string).
 // Test continues on fail.
 func NewAssert(t *testing.T) func(interface{}, interface{}, ...string) {
