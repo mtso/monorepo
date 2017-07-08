@@ -1,7 +1,7 @@
 # indexer
 
 [summary]::
-Recursively crawl a repository's readme files.
+Recursively crawl a repository's README files.
 
 Uses for the line after `[summary]::` as the repo's blurb.  
 Note that `[summary]::` must be preceded by a newline in order to be  
