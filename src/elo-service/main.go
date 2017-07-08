@@ -50,6 +50,8 @@ func NewRouter() *mux.Router {
 
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/new", NewLeague).Methods("POST")
+	api.HandleFunc("/{id:[a-f0-9]{24}}/games", GetGames).Methods("GET")
+	api.HandleFunc("/{id:[a-f0-9]{24}}/players", GetPlayers).Methods("GET")
 	api.HandleFunc("/{id:[a-f0-9]{24}}", AddGame).Methods("POST")
 
 	return router

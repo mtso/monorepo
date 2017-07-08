@@ -10,6 +10,38 @@ import (
 	"testing"
 )
 
+var persistedLeagueid string
+
+func TestMain(m *testing.M) {
+	app := newApp()
+	defer app.Db.Close()
+	ts := httptest.NewServer(app.Handler)
+	defer ts.Close()
+
+	buf := bytes.NewBuffer([]byte(`{"title":"Persisted League"}`))
+	resp, err := http.Post(ts.URL+"/api/new", "application/json", buf)
+	if err != nil {
+		panic(err)
+	}
+
+	body, err := ParseResponseBody(resp)
+	if err != nil {
+		panic(err)
+	}
+
+	league, _ := body["league"]
+	leagueid, _ := league.(map[string]interface{})["id"]
+	persistedLeagueid = leagueid.(string)
+
+	buf = bytes.NewBuffer([]byte(`{"winner":"foo","loser":"bar"}`))
+	_, err = http.Post(ts.URL+"/api/"+persistedLeagueid, "application/json", buf)
+	if err != nil {
+		panic(err)
+	}
+
+	m.Run()
+}
+
 func Test_NewLeague(t *testing.T) {
 	assert := NewAssert(t)
 	must := NewMust(t)
@@ -69,6 +101,48 @@ func Test_AddGame(t *testing.T) {
 
 	username, ok := winner.(map[string]interface{})["username"]
 	assert(username, "foo", "Should be the POSTed name")
+}
+
+func Test_GetGames(t *testing.T) {
+	assert := NewAssert(t)
+	must := NewMust(t)
+
+	app := newApp()
+	defer app.Db.Close()
+	ts := httptest.NewServer(app.Handler)
+	defer ts.Close()
+
+	resp, err := http.Get(ts.URL + "/api/" + persistedLeagueid + "/games")
+	must(err, nil, "Should be successful GET request")
+
+	body, err := ParseResponseBody(resp)
+	must(err, nil, "Should decode JSON response")
+
+	games, ok := body["games"]
+	must(ok, true, "Should contain games field")
+
+	assert(reflect.ValueOf(games), reflect.Slice, "Should be an array")
+}
+
+func Test_GetPlayers(t *testing.T) {
+	assert := NewAssert(t)
+	must := NewMust(t)
+
+	app := newApp()
+	defer app.Db.Close()
+	ts := httptest.NewServer(app.Handler)
+	defer ts.Close()
+
+	resp, err := http.Get(ts.URL + "/api/" + persistedLeagueid + "/players")
+	must(err, nil, "Should be successful GET request")
+
+	body, err := ParseResponseBody(resp)
+	must(err, nil, "Should decode JSON response")
+
+	players, ok := body["players"]
+	must(ok, true, "Should contain players field")
+
+	assert(reflect.ValueOf(players), reflect.Slice, "Should be an array")
 }
 
 // NewAssert makes an assert func(i{}, i{}, ...string).

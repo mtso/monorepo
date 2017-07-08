@@ -30,23 +30,14 @@ const (
 		union all select id, league_id, display_name, elo
 		FROM ExistingPlayer`
 
-	// SelectOrInsertPlayer = `INSERT INTO Players (league_id, display_name)
-	// 	SELECT CAST($1 AS VARCHAR), CAST($2 AS VARCHAR)
-	// 	FROM Players
-	// 	WHERE NOT EXISTS (
-	// 		SELECT 1 FROM Players
-	// 		WHERE league_id = $1
-	// 		AND display_name = $2
-	// 		)
-	// 	SELECT id, league_id, display_name, elo
-	// 	    FROM Players
-	// 	    WHERE league_id = $1
-	// 		AND display_name = $2`
-	// RETURNING id, league_id, display_name, elo`
-
 	UpdatePlayerQuery = `UPDATE Players
 		SET elo = $2
 		WHERE id = $1`
+
+	SelectPlayers = `SELECT display_name, elo
+	    FROM Players
+	    WHERE league_id = $1
+	    ORDER BY elo DESC`
 )
 
 type Player struct {
@@ -79,4 +70,24 @@ func (pl *Player) Save(tx ...*sql.Tx) (err error) {
 		_, err = Conn.db.Exec(UpdatePlayerQuery, pl.Id, pl.Elo)
 	}
 	return
+}
+
+func GetPlayers(id interface{}) ([]Player, error) {
+	rows, err := Conn.db.Query(SelectPlayers, id)
+	if err != nil {
+		return nil, err
+	}
+
+	players := make([]Player, 0)
+	var pl Player
+	for rows.Next() {
+		err := rows.Scan(&pl.Username, &pl.Elo)
+		if err != nil {
+			return nil, err
+		}
+
+		players = append(players, pl)
+	}
+
+	return players, nil
 }

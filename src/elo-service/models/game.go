@@ -19,6 +19,19 @@ const (
 	InsertGame = `INSERT INTO Games (league_id, winner_id, loser_id)
 			VALUES ($1, $2, $3)
 			RETURNING id, created_at`
+
+	SelectGames = `SELECT
+		games.id,
+		games.created_at,
+		winner.display_name,
+		winner.elo,
+		loser.display_name,
+		loser.elo
+		FROM Games
+		JOIN Players as winner on Games.winner_id = winner.id 
+		JOIN Players as loser on Games.loser_id = loser.id 
+		WHERE Games.league_id = $1
+		ORDER BY Games.created_at DESC`
 )
 
 type Game struct {
@@ -83,4 +96,26 @@ func AddGame(leagueid, winnername, losername interface{}, calcHandler func(Playe
 	gm.Winner = winner
 	gm.Loser = loser
 	return
+}
+
+func GetGames(id interface{}) ([]Game, error) {
+	rows, err := Conn.db.Query(SelectGames, id)
+	if err != nil {
+		return nil, err
+	}
+
+	games := make([]Game, 0)
+	var g Game
+	for rows.Next() {
+		err := rows.Scan(&g.Id, &g.CreatedAt,
+			&g.Winner.Username, &g.Winner.Elo,
+			&g.Loser.Username, &g.Loser.Elo)
+		if err != nil {
+			return nil, err
+		}
+
+		games = append(games, g)
+	}
+
+	return games, nil
 }

@@ -94,3 +94,45 @@ func AddGame(w http.ResponseWriter, r *http.Request) {
 	}
 	WriteResponse(w, resp)
 }
+
+func GetGames(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		WriteResponse(w, ErrNoId, http.StatusBadRequest)
+		return
+	}
+
+	gms, err := models.GetGames(id)
+	if err != nil {
+		WriteResponse(w, err, http.StatusInternalServerError)
+		return
+	}
+
+	resp := JSON{
+		"ok":    true,
+		"games": gms,
+	}
+	WriteResponse(w, resp)
+}
+
+func GetPlayers(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		WriteResponse(w, ErrNoId, http.StatusBadRequest)
+		return
+	}
+
+	players, err := models.GetPlayers(id)
+	if err != nil {
+		WriteResponse(w, err, http.StatusInternalServerError)
+		return
+	}
+
+	resp := JSON{
+		"ok":      true,
+		"players": players,
+	}
+	WriteResponse(w, resp)
+}
