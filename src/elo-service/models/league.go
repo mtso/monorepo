@@ -1,7 +1,12 @@
 package models
 
 import (
+	"crypto/sha256"
 	"database/sql"
+	"fmt"
+	"os"
+	"time"
+
 	_ "github.com/lib/pq"
 )
 
@@ -11,10 +16,34 @@ const (
 		    display_name varchar(256) NOT NULL,
 		    created_at timestamp NOT NULL DEFAULT CURRENT_DATE
 		)`
+
+	InsertLeague = `INSERT INTO Leagues (id, display_name)
+		VALUES ($1, $2)
+		RETURNING id, display_name, created_at`
 )
 
-func ConnectLeague(db *db.Conn) {
-	db.Exec(CreateTableLeague)
+type League struct {
+	Id        string    `json:"id"`
+	Title     string    `json:"title"`
+	CreatedAt time.Time `json:"createdAt"`
+}
+
+func ConnectLeagues(db *sql.DB) (err error) {
+	_, err = db.Exec(CreateTableLeagues)
+	return
+}
+
+func CreateLeague(id, title interface{}) (l League, err error) {
+	row := Conn.db.QueryRow(InsertLeague, id, title)
+
+	err = row.Scan(&l.Id, &l.Title, &l.CreatedAt)
+	return
+}
+
+func RandomId() string {
+	now := time.Now()
+	secret := fmt.Sprintf("%d%d", now.Unix(), now.UnixNano()) + os.Getenv("SESSION_SECRET")
+	return HashId([]byte(secret))
 }
 
 func HashId(in []byte) string {
