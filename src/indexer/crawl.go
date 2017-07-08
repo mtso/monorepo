@@ -18,37 +18,31 @@ func main() {
 	content := make([]Content, 0)
 
 	crawlDir(".", func(dirname, filename string) {
-		// Read contents if it is a README file.
-		if readmePattern.MatchString(filename) {
-			c, err := readContent(dirname, filename)
-			if err == ErrNoSummary {
-				return
-			}
-			content = append(content, c)
+		if !readmePattern.MatchString(filename) {
+			return
+	    }
+
+	    // Read contents if it is a README file.
+		readme, err := ioutil.ReadFile(path.Join(dirname, filename))
+		if err != nil {
+			return
 		}
+
+		summary, err := GetSummary(readme)
+		if err == ErrNoSummary {
+			return
+		}
+
+		content = append(content, Content{dirname, string(summary)})
 	})
 
-	PrintContents(content)
+	print(content)
 }
 
-func PrintContents(table []Content) {
+func print(table []Content) {
 	for _, content := range table {
 		fmt.Printf("`%s/` | %s\n", content.Dirname, content.Summary)
 	}
-}
-
-func readContent(dirname, filename string) (c Content, err error) {
-	readme, err := ioutil.ReadFile(path.Join(dirname, filename))
-	if err != nil {
-		return c, err
-	}
-
-	summary, err := GetSummary(readme)
-	if err != nil {
-		return c, err
-	}
-
-	return Content{dirname, string(summary)}, nil
 }
 
 // Recursively reads filepaths from a given path and invokes
