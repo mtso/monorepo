@@ -1,0 +1,9 @@
+{
+  "name": "node-summarize",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "summarize": "^1.5.0",
+    "superagent": "^3.5.2"
+  }
+}
