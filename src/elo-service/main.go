@@ -44,15 +44,15 @@ func main() {
 func NewRouter() *mux.Router {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("hello~ " + models.RandomId()))
-	})
-
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/new", NewLeague).Methods("POST")
 	api.HandleFunc("/{id:[a-f0-9]{24}}/games", GetGames).Methods("GET")
 	api.HandleFunc("/{id:[a-f0-9]{24}}/players", GetPlayers).Methods("GET")
 	api.HandleFunc("/{id:[a-f0-9]{24}}", AddGame).Methods("POST")
+	api.HandleFunc("/{id:[a-f0-9]{24}}", GetLeague).Methods("GET")
+
+	router.PathPrefix("/static/").Handler(serveStatic)
+	router.MatcherFunc(catchall).HandlerFunc(serveApp)
 
 	return router
 }
