@@ -17,6 +17,27 @@ var ErrNoWinner = errors.New("Request is missing 'winner' field")
 var ErrNoLoser = errors.New("Request is missing 'loser' field")
 var ErrNoId = errors.New("Path is missing 'id' param")
 
+func GetLeague(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		WriteResponse(w, ErrNoId)
+		return
+	}
+
+	lg, err := models.GetLeagueById(id)
+	if err != nil {
+		WriteResponse(w, ErrNoId)
+		return
+	}
+
+	resp := JSON{
+		"ok":     true,
+		"league": lg,
+	}
+	WriteResponse(w, resp)
+}
+
 func NewLeague(w http.ResponseWriter, r *http.Request) {
 	body, err := ParseBody(r.Body)
 	if err != nil {

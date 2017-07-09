@@ -25,6 +25,7 @@ func WriteResponse(w http.ResponseWriter, js interface{}, code ...int) {
 	if len(code) > 0 {
 		w.WriteHeader(code[0])
 	}
+	w.Header().Set("Content-Type", "application/json")
 	w.Write(resp)
 }
 

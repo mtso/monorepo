@@ -52,6 +52,23 @@ POST /api/:id/
 }
 ```
 
+## Get League Info
+```url
+GET /api/:id
+```
+
+#### Example Response
+```json
+{
+  "ok": true,
+  "league": {
+    "id": "7db934381579dee00af58b3f",
+    "title": "tea party",
+    "createdAt": "2017-07-08T10:34:40.699839Z"
+  }
+}
+```
+
 ## Get Game History of a League
 ```url
 GET /api/:id/games
