@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Switch, withRouter } from 'react-router-dom'
 import IndexPage from './components/IndexPage'
+import AboutPage from './components/AboutPage'
 import LeaguePage from './components/LeaguePage'
 import ReferencePage from './components/ReferencePage'
 
@@ -11,7 +12,8 @@ const App = ({ setLeague }) => (
         setLeague={setLeague}
       />
     )} />
-    <Route path='/docs' component={ReferencePage} />
+    <Route path='/api' component={ReferencePage} />
+    <Route path='/about' component={AboutPage} />
     <Route path='/:id' component={() => (
       <LeaguePage />
     )} />

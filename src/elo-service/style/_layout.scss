@@ -1,0 +1,31 @@
+html, body, div, input {
+  padding: 0;
+  margin: 0;
+}
+
+.textfield {
+  border: none;
+  background-color: #DCD2E0;
+  outline: none;
+  padding: 1em;
+
+  &:focus {
+    background-color: #E9E0ED;
+  }
+
+  &::placeholder {
+    // color: red;
+  }
+}
+
+.action-button {
+  border: none;
+  background-color: #7D628C;
+  padding: 1em;
+  color: white;
+  cursor: pointer;
+
+  &:active {
+    background-color: #8542AA;
+  }
+}

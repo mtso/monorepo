@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect, withRouter } from 'react-router-dom'
+import { Link, Redirect, withRouter } from 'react-router-dom'
 import request from 'superagent'
 
 const IndexPage = ({ league, onCreate, ...props }) => {
@@ -14,17 +14,28 @@ const IndexPage = ({ league, onCreate, ...props }) => {
 
   return (
     <div>
+      <h1>ELO</h1>
       <form onSubmit={onCreate}>
         <input
           type='text'
           name='title'
           placeholder='League Title'
+          className='textfield'
         />
         <input
           type='submit'
           value='Create League'
+          className='action-button'
         />
       </form>
+      <span>© 2017 <a href='https://github.com/mtso'>
+        mtso
+      </a> | <Link to='/api'>
+        API Reference
+      </Link> | <Link to='/about'>
+        About
+      </Link>
+      </span>
     </div>
   )
 }

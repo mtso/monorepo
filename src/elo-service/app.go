@@ -13,6 +13,7 @@ const IndexHtml = `<!doctype html>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>ELO</title>
+	<link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 	<div id="app"></div>

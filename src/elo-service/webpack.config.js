@@ -1,8 +1,12 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-  entry: { bundle: path.resolve(__dirname, 'app/index') },
+  entry: {
+    bundle: path.resolve(__dirname, 'app/index'),
+    style: path.resolve(__dirname, 'style/main.scss'),
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
@@ -20,7 +24,15 @@ module.exports = {
         test: /\.m(ark)?d(own)?$/,
         exclude: /node_modules/,
         loader: 'raw-loader',
-      }
+      },
+      {
+        test: /\.s[ac]ss$/,
+        exclude: /node_modules/,
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader!sass-loader',
+        })
+      },
     ],
   },
   plugins: [
@@ -28,5 +40,10 @@ module.exports = {
       filename: 'index.html',
       inject: 'body',
     }),
+    new ExtractTextPlugin({
+      filename: '[name].css',
+      disable: false,
+      allChunks: true,
+    })
   ],
 }

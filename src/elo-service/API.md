@@ -1,4 +1,4 @@
-# API
+# API Reference
 
 The API is based on a JSON request and response model.
 `GET` requests do not expect parameters besides the league ID in the URL.
