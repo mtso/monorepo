@@ -3,6 +3,112 @@ import { Link, Route, withRouter } from 'react-router-dom'
 import request from 'superagent'
 import path from 'path'
 
+const Players = ({ players }) => (
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>ELO</th>
+      </tr>
+    </thead>
+    <tbody>
+    {players && players.map(({ username, elo }) => (
+      <tr key={username}>
+        <td>{username}</td>
+        <td>{elo}</td>
+      </tr>
+    ))}
+    </tbody>
+  </table>
+)
+
+const Games = ({ games }) => (
+  <table>
+    <thead>
+      <tr>
+        <th>Winner</th>
+        <th>Loser</th>
+      </tr>
+    </thead>
+    <tbody>
+    {games && games.map(({ winner, loser }, i) => (
+      <tr key={i}>
+        <td>{winner.username}</td>
+        <td>{loser.username}</td>
+      </tr>
+    ))}
+    </tbody>
+  </table>
+)
+
+class GamesContainer extends Component {
+  constructor(props) {
+    super(props)
+    const { games } = this.props
+    this.state = { games }
+  }
+  componentDidMount() {
+    const { league } = this.props
+    if (!league) { return }
+    request
+      .get(`/api/${league.id}/games`)
+      .then(({ body }) => body)
+      .then(({ ok, games, message }) => {
+        if (!ok) {
+          throw new Error(message)
+        }
+        this.setState({
+          games,
+        })
+      })
+  }
+  render() {
+    return (
+      <Games
+        {...this.state} 
+        {...this.props}
+      />
+    )
+  }
+}
+
+class PlayersContainer extends Component {
+  constructor(props) {
+    super(props)
+    const { players } = this.props
+    this.state = {
+      players,
+    }
+  }
+  componentDidMount() {
+    const { league } = this.props
+    if (!league) {
+      return
+    }
+    request
+      .get(`/api/${league.id}/players`)
+      .then(({ body }) => body)
+      .then(({ ok, players, message }) => {
+        if (!ok) {
+          throw new Error(message)
+        }
+        this.setState({
+          players,
+        })
+      })
+  }
+  render() {
+    return (
+      <Players
+        {...this.state}
+        {...this.props}
+      />
+    )
+  }
+}
+
+const RoutedPlayers = withRouter(PlayersContainer)
+
 const LeaguePage = ({ league, match, history, ...props }) => (
   <div>
     <div className='titlebar'>
@@ -21,11 +127,11 @@ const LeaguePage = ({ league, match, history, ...props }) => (
 
       <Route
         path={path.join(match.url, 'players')}
-        render={() => (<div>player1</div>)}
+        component={() => (<PlayersContainer league={league} />)}
       />
       <Route
         path={path.join(match.url, 'games')}
-        render={() => (<div>game history</div>)}
+        component={() => (<GamesContainer league={league} />)}
       />
     </div>
   </div>
