@@ -1,11 +1,39 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import { Link, Route, withRouter } from 'react-router-dom'
+import request from 'superagent'
+import path from 'path'
 
-const LeaguePage = ({ league }) => (
+const LeaguePage = ({ league, match, history, ...props }) => (
   <div>
-    <div>{league && league.title}</div>
+    <div className='titlebar'>
+      <div>{league && league.title}</div>
+      <div>{league && league.id}</div>
+    </div>
+    <div>
+      <Link to={{
+        pathname: path.join(match.url, 'players'),
+        state: { league },
+      }}>Leaderboard</Link>
+      <Link to={{
+        pathname: path.join(match.url, 'games'),
+        state: { league },
+      }}>Game History</Link>
+
+      <Route
+        path={path.join(match.url, 'players')}
+        render={() => (<div>player1</div>)}
+      />
+      <Route
+        path={path.join(match.url, 'games')}
+        render={() => (<div>game history</div>)}
+      />
+    </div>
   </div>
 )
+      // <button onClick={() => history.push(path.join(match.url, 'players'))}>Leaderboard</button>
+      // <button onClick={() => history.push(path.join(match.url, 'games'))}>Game History</button>
+      // <Link to={path.join(match.url, 'players')}>Leaderboard</Link>
+      // <Link to={path.join(match.url, 'games')}>Game History</Link>
 
 class LeaguePageContainer extends Component {
   constructor(props) {
@@ -22,6 +50,8 @@ class LeaguePageContainer extends Component {
         ...state,
       })
     }
+    // Check if component re-mounts on URL path change.
+    // console.log('mounting...')
 
     const { params } = match
     const { id } = params
@@ -41,6 +71,7 @@ class LeaguePageContainer extends Component {
     return (
       <LeaguePage
         {...this.state}
+        {...this.props}
       />
     )
   }

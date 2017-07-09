@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Redirect, withRouter } from 'react-router-dom'
 import request from 'superagent'
 
-const IndexPage = ({ league, onCreate }) => {
+const IndexPage = ({ league, onCreate, ...props }) => {
   if (!!league) {
     return (
       <Redirect to={{
@@ -62,10 +62,11 @@ class IndexPageContainer extends Component {
     return (
       <IndexPage
         {...this.state}
+        {...this.props}
         onCreate={this.onCreate}
       />
     )
   }
 }
 
-export default IndexPageContainer
+export default withRouter(IndexPageContainer)
