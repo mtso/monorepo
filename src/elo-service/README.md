@@ -6,7 +6,7 @@ League management service that calculates player ELO ratings.
 ## User Stories
 - [x] I can create a new league.
 - [x] I can add a new game with a winner and loser to a league.
-- [ ] I can view a list of the players in a league and their ELO scores.
+- [x] I can view a list of the players in a league and their ELO scores.
 - [x] I can view a list of all the games played in a league.
 
 ## Routes

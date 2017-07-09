@@ -7,7 +7,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js',
   },
-  resolve: { extensions: [ '.js', '.jsx' ] },
+  resolve: { extensions: [ '.js', '.jsx', '.md' ] },
   module: {
     rules: [
       {
@@ -16,6 +16,11 @@ module.exports = {
         loader: 'babel-loader',
         query: { presets: [ 'es2015', 'react', 'stage-0' ] },
       },
+      {
+        test: /\.m(ark)?d(own)?$/,
+        exclude: /node_modules/,
+        loader: 'raw-loader',
+      }
     ],
   },
   plugins: [
