@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link, Route, withRouter } from 'react-router-dom'
+import { Redirect, Link, Route, withRouter } from 'react-router-dom'
 import request from 'superagent'
 import path from 'path'
 
@@ -96,6 +96,7 @@ class PlayersContainer extends Component {
           players,
         })
       })
+      .catch(console.warn)
   }
   render() {
     return (
@@ -109,11 +110,33 @@ class PlayersContainer extends Component {
 
 const RoutedPlayers = withRouter(PlayersContainer)
 
-const LeaguePage = ({ league, match, history, ...props }) => (
+const LeaguePage = ({
+  league,
+  onAddGame,
+  match,
+  ...props,
+}) => (
   <div>
     <div className='titlebar'>
       <div>{league && league.title}</div>
-      <div>{league && league.id}</div>
+    </div>
+    <div>
+      <form onSubmit={onAddGame}>
+        <input
+          type='text'
+          name='winner'
+          placeholder='Winner'
+        />
+        <input
+          type='text'
+          name='loser'
+          placeholder='Loser'
+        />
+        <input
+          type='submit'
+          value='Add Game'
+        />
+      </form>
     </div>
     <div>
       <Link to={{
@@ -136,10 +159,6 @@ const LeaguePage = ({ league, match, history, ...props }) => (
     </div>
   </div>
 )
-      // <button onClick={() => history.push(path.join(match.url, 'players'))}>Leaderboard</button>
-      // <button onClick={() => history.push(path.join(match.url, 'games'))}>Game History</button>
-      // <Link to={path.join(match.url, 'players')}>Leaderboard</Link>
-      // <Link to={path.join(match.url, 'games')}>Game History</Link>
 
 class LeaguePageContainer extends Component {
   constructor(props) {
@@ -147,6 +166,7 @@ class LeaguePageContainer extends Component {
     this.state = {
       league: null,
     }
+    this.onAddGame = this.onAddGame.bind(this)
   }
   componentDidMount() {
     const { location, match } = this.props
@@ -162,20 +182,35 @@ class LeaguePageContainer extends Component {
     const { params } = match
     const { id } = params
     request
-      .get('/api/'+id)
+      .get('/api/' + id)
       .then(({ body }) => body)
       .then(({ ok, league, message }) => {
-        if (!ok) {
-          throw new Error(message)
-        }
-        this.setState({
-          league,
-        })
+        if (!ok) { throw new Error(message) }
+        this.setState({ league })
+      })
+  }
+  onAddGame(e) {
+    e.preventDefault()
+    const { league } = this.state
+    if (!league) {
+      return
+    }
+    const inputs = e.target.elements
+    const winner = inputs['winner'].value
+    const loser = inputs['loser'].value
+    request
+      .post('/api/' + league.id)
+      .send({ winner, loser })
+      .then(({ ok, game, message }) => {
+        if (!ok) { throw new Error(message) }
+        // Trigger component update.
+        this.setState({ game })
       })
   }
   render() {
     return (
       <LeaguePage
+        onAddGame={this.onAddGame}
         {...this.state}
         {...this.props}
       />
@@ -183,4 +218,18 @@ class LeaguePageContainer extends Component {
   }
 }
 
-export default withRouter(LeaguePageContainer)
+const LeaguePageRedirector = ({ match, ...props }) => {
+  if (match.isExact) {
+    return (<Redirect
+              to={`${match.url}/players`}
+            />)
+  }
+  return (
+    <LeaguePageContainer
+      match={match}
+      {...props}
+    />
+  )
+}
+
+export default withRouter(LeaguePageRedirector)
