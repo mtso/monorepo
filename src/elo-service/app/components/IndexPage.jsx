@@ -5,10 +5,13 @@ import request from 'superagent'
 const IndexPage = ({ league, onCreate, ...props }) => {
   if (!!league) {
     return (
-      <Redirect to={{
-        pathname: '/' + league.id,
-        state: { league },
-      }} />
+      <Redirect
+        push
+        to={{
+          pathname: '/' + league.id,
+          state: { league },
+        }}
+      />
     )
   }
 

@@ -116,29 +116,39 @@ const LeaguePage = ({
   match,
   ...props,
 }) => (
-  <div>
+  <div className='container'>
     <div className='titlebar'>
-      <div>{league && league.title}</div>
-    </div>
-    <div>
-      <form onSubmit={onAddGame}>
+      <div className='title menu-item'>{league && league.title}</div>
+      <input
+        className='textfield menu-item' 
+        value={league && (
+          location.origin + '/' + league.id
+        )}
+      />
+      <form
+        className='sticky-form'
+        onSubmit={onAddGame}
+      >
         <input
           type='text'
           name='winner'
           placeholder='Winner'
+          className='textfield'
         />
         <input
           type='text'
           name='loser'
           placeholder='Loser'
+          className='textfield'
         />
         <input
           type='submit'
           value='Add Game'
+          className='action-button'
         />
       </form>
     </div>
-    <div>
+    <div className='content'>
       <Link to={{
         pathname: path.join(match.url, 'players'),
         state: { league },

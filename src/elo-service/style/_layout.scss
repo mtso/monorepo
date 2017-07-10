@@ -1,13 +1,47 @@
-html, body, div, input {
+html, body, input {
+  height: 100%;
   padding: 0;
   margin: 0;
 }
 
+$sidebar-width: 20em;
+$input-width: 20em;
+$input-margin: 1em;
+
+.titlebar {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: pink;
+  // width: $sidebar-width;
+  display: inline-block;
+}
+
+div {
+  margin: 0;
+}
+// .menu-item {
+//   margin: 0;
+//   width: $sidebar-width;
+// }
+
+.title.menu-item {
+  // width: $sidebar-width;
+  // height: 3em;  
+  display: inline;
+  margin-left: 1em;
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+  // padding: 0;
+}
+
 .textfield {
+  display: block;
   border: none;
   background-color: #DCD2E0;
   outline: none;
   padding: 1em;
+  width: $input-width - $input-margin * 2;
 
   &:focus {
     background-color: #E9E0ED;
@@ -22,10 +56,26 @@ html, body, div, input {
   border: none;
   background-color: #7D628C;
   padding: 1em;
+  width: $input-width;
   color: white;
   cursor: pointer;
 
   &:active {
     background-color: #8542AA;
   }
+}
+
+.sticky-form {
+  position: absolute;
+  bottom: 0px;
+}
+
+.content {
+  display: inline-block;
+  height: 100%;
+}
+
+.container {
+  position: flex;
+  align-items: flex-top;
 }
