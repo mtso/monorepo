@@ -14,6 +14,7 @@ Path | Description
 `demo/csharp-tcp-server/` | Web server implemented using .NET's TCPListener.
 `demo/dynamic-react/` | Experiments in manipulating the React component tree at runtime.
 `demo/goja/` | Run JavaScript from Go.
+`demo/gs-rest-service/` | Spring RESTFUL web service hello world follow-along.
 `demo/middleware-go/` | Logging middleware that wraps the native http.ResponseWriter.
 `demo/middleware-js/` | Log middleware that wraps node's http request/response.
 `demo/node-cluster/` | Handle parallel HTTP requests by spawning a worker for each CPU.
