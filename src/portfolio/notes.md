@@ -15,6 +15,9 @@
 - [2] backend API projects
 - [5] four
 - [5] artraid
+- [6] tackdb.com
+- [4] recipe box (refactor the React app)
+- [4] fcc leaderboard (refactor the React app)
 
 ### readiness level:
 1. Done. With screenshots, description text, links to live demo and GitHub code.
@@ -22,3 +25,4 @@
 3. The project needs to be cleaned: lint source, polish CSS style, fix spelling mistakes.
 4. The project has code that needs to be fixed.
 5. The project is not finished.
+6. The project has not begin.
