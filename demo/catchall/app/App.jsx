@@ -13,4 +13,15 @@ const App = ({ match, location }) => {
   )
 }
 
-export default withRouter(App)
+const RoutedApp = (props) => (
+  <Route
+    path='/:param'
+    component={() => (
+      <App
+        {...props}
+      />
+    )}
+  />
+)
+
+export default withRouter(RoutedApp)

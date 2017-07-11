@@ -9,6 +9,7 @@ Path | Description
 `algorithms/map/` | **WIP** C hash table.
 `benchmark/go-react-render/` | Minimal React app to benchmark server-side rendering.  
 `demo/bricks.js/` | Integrate bricks.js masonry layout into React.
+`demo/catchall/` | Sketch of react-router on a 404.html catchall index.
 `demo/chocolate-bar/` | Bare-minimum authenticated web app in React, React Router, and Redis.
 `demo/crypto-go/` | Experiments with Go's `crypto` package.
 `demo/csharp-tcp-server/` | Web server implemented using .NET's TCPListener.
@@ -27,3 +28,4 @@ Path | Description
 `src/indexer/` | Recursively crawl a repository's README files.
 `src/portfolio/` | Website portfolio.
 `src/realworld/` | Go web app implementing the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
+

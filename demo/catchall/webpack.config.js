@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const injectHtml = new HtmlWebpackPlugin({
   filename: '404.html',
   inject: 'body',
+  template: path.resolve(__dirname, '404.template.html'),
 })
 
 module.exports = {
