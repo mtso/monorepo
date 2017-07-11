@@ -4,9 +4,22 @@ html, body, input {
   margin: 0;
 }
 
+html {
+  background-color: darkgray;
+}
+
+$font: Roboto, 'Helvetica Neue', sans-serif;
 $sidebar-width: 20em;
 $input-width: 20em;
 $input-margin: 1em;
+
+body, button, input {
+  font-family: $font;
+}
+
+// body {
+//   margin-left: -$sidebar-width + 8em;
+// }
 
 // .sidebar {
 //   position: absolute;
@@ -16,8 +29,9 @@ $input-margin: 1em;
 // }
 
 .titlebar {
-  flex: 1;
+  // flex: 1;
   // margin-left: -20px;
+  // left: -20px;
   // position: absolute;
   display: inline-block;
   height: 100%;
@@ -40,9 +54,10 @@ div {
   // width: $sidebar-width;
   // height: 3em;  
   display: block;
-  margin-left: 1em;
+  margin-left: 0.6em;
   margin-top: 0.6em;
   margin-bottom: 0.6em;
+  // overflow-x: scroll;
   // padding: 0;
 }
 
@@ -82,16 +97,46 @@ div {
 }
 
 .content {
-  flex: 1;
+  background-color: pink;
+  // flex: 1;
   // margin-left: $sidebar-width;
   // position: absolute;
   // display: inline-block;
   height: 100vh;
+  width: 100%;
   overflow-y: scroll;
+
+  // padding: 1em;
+
+  a {
+    font-size: 0.8em;
+    text-decoration: none;
+    display: inline-block;
+    // margin-top: 1em;
+    padding: 0.8em 1.2em;
+    background-color: blue;
+    color: white;
+
+    &:hover {
+      background-color: lighten(blue, 10%);
+      color: darken(white, 10%);
+    }
+  }
+
+  table {
+    margin: 1em;
+  }
+
+  th {
+    text-align: left;
+  }
+  td {
+    padding-right: 5em;
+  }
 }
 
 .container {
-  flex-direction: column;
-  position: flex;
-  align-items: flex-top;
+  // flex-direction: column;
+  display: flex;
+  // align-items: flex-top;
 }
