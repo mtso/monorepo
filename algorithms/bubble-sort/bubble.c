@@ -25,7 +25,7 @@ void bubble_sort(
 ) {
     for (int i = 0; i < numlen-1; ++i) {
         for (int j = 0; j < numlen-1; ++j) {
-            if ((*comparer)(*(nums+j), *(nums+j+1))){
+            if ((*comparer)(*(nums+j), *(nums+j+1)) > 0){
                 swap((nums+j), (nums+j+1));
             }
         }
@@ -41,12 +41,12 @@ void printarray(int *nums, int numlen) {
 
 /* asc compares a to b for ascending order. */
 int asc(int a, int b) {
-    return a > b;
+    return a - b;
 }
 
 /* desc compares a to b for descending order. */
 int desc(int a, int b) {
-    return a < b;
+    return b - a;
 }
 
 const int SIZE = 5;
