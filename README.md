@@ -24,10 +24,12 @@ Path | Description
 `demo/react-router/` | Basic follow-along with the react-router v4 documentation.
 `demo/socket-client-server/` | **WIP** C socket server and client.
 `demo/tcp-client-server/` | Simple Go TCP server and client.
+`src/base/` | Base API gateway for mtso.io. (Documentation, source code browser, etc.)
 `src/bin/` | `bin` is a library of executable scripts and the sources to compile them.
 `src/cha-service/` | Simple microservice JSON API server for use with tech demos.
 `src/chocolate-locker/` | Chocolate locker service and OAuth2 server.
 `src/elo-service/` | League management service that calculates player ELO ratings.
 `src/indexer/` | Recursively crawl a repository's README files.
+`src/logger-service/` | ELK stack logging server.
 `src/portfolio/` | Website portfolio.
 `src/realworld/` | Go web app implementing the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
