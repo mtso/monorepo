@@ -11,9 +11,15 @@ import (
 
 type Product struct {
 	gorm.Model
+	Code    string
+	Price   uint
+	StoreID uint
+}
 
-	Code string
-	Price uint
+type Store struct {
+	gorm.Model
+	Products []Product
+	Name     string
 }
 
 func main() {
@@ -23,27 +29,42 @@ func main() {
 	}
 	defer db.Close()
 
+	db.AutoMigrate(&Store{})
 	db.AutoMigrate(&Product{})
 
-	db.Create(&Product{Code: "foo", Price: 1000})
+	db.Create(&Store{Name: "Random Store"})
+	db.Create(&Product{Code: "bar", Price: 2000, StoreID: 1})
+	db.Create(&Product{Code: "foo", Price: 1000, StoreID: 1})
 
-	var product Product
-	dberr := db.First(&product, 6)
-	if dberr != nil {
-		log.Println(product.Error)
-	} else {
-		log.Println("id:", product.ID)
+	var store Store
+	products := make([]Product, 0)
+	db.First(&store, "name = ?", "Random Store")
+	log.Println("store:", store.Name)
+
+	db.Model(&store).Related(&products)
+	for _, product := range products {
+		log.Println(product.Code, product.Price)
 	}
 
-	db.First(&product, "code = ?", "foo")
-	log.Println("id:", product.ID)
-	log.Println("code:", product.Code)
-	log.Println("price:", product.Price)
+	/*
+		var product Product
+		dberr := db.First(&product, 6)
+		if dberr != nil {
+			log.Println(product.Error)
+		} else {
+			log.Println("id:", product.ID)
+		}
 
-	db.Model(&product).Update("Price", 2000)
-	db.First(&product, "code = ?", "foo")
+		db.First(&product, "code = ?", "foo")
+		log.Println("id:", product.ID)
+		log.Println("code:", product.Code)
+		log.Println("price:", product.Price)
 
-	log.Println("price:", product.Price)
+		db.Model(&product).Update("Price", 2000)
+		db.First(&product, "code = ?", "foo")
 
-	db.Delete(&product)
+		log.Println("price:", product.Price)
+
+		db.Delete(&product)
+	*/
 }
