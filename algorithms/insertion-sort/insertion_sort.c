@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 
+const int SIZE = 4;
+
 void check(int got, int want) {
     if (got != want) {
         printf("FAILED %s:%d %d!=%d\n", __FILE__, __LINE__, got, want);
@@ -17,6 +19,13 @@ int desc(int a, int b) {
 
 int asc(int a, int b) {
     return a - b;
+}
+
+void printnums(int *nums, int numlen) {
+    for (int i = 0; i < numlen; ++i) {
+        printf("%d ", *(nums++));
+    }
+    printf("\n");
 }
 
 void insertion_sort(int *nums, int numlen, int (*comparer)(int, int)) {
@@ -35,14 +44,24 @@ void insertion_sort(int *nums, int numlen, int (*comparer)(int, int)) {
     }
 }
 
-void printnums(int *nums, int numlen) {
-    for (int i = 0; i < numlen; ++i) {
-        printf("%d ", *(nums++));
+void recursive_insertion_sort(int *nums, int len, int comparer(int, int)) {
+    if (len == 1) {
+        return;
     }
-    printf("\n");
-}
 
-const int SIZE = 4;
+    int next = len-1;
+    recursive_insertion_sort(nums, next, comparer);
+
+    int num = *(nums+next);
+    next--;
+
+    // while (next >= 0 && num < *(nums+next)) {
+    while (next >= 0 && comparer(num, *(nums+next)) < 0) {
+        *(nums+next+1) = *(nums+next);
+        next = next - 1;
+    }
+    *(nums+next+1) = num;
+}
 
 int main(int argc, char** argv) {
     int nums[SIZE] = {3, 2, 4, 1};
