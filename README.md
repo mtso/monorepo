@@ -7,6 +7,7 @@ My big bucket of source code.
 Path | Description
 ---- | -----------
 `algorithms/bubble-sort/` | Bubble sort iteratively sorts an array of integers.
+`algorithms/insertion-sort/` | Insertion sort in C.
 `algorithms/map/` | **WIP** C hash table.
 `benchmark/go-react-render/` | Minimal React app to benchmark server-side rendering.  
 `demo/bricks.js/` | Integrate bricks.js masonry layout into React.
@@ -34,4 +35,3 @@ Path | Description
 `src/logger-service/` | ELK stack logging server.
 `src/portfolio/` | Website portfolio.
 `src/realworld/` | Go web app implementing the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
-
