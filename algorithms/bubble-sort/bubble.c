@@ -24,7 +24,7 @@ void bubble_sort(
     int (*comparer)(int, int)
 ) {
     for (int i = 0; i < numlen-1; ++i) {
-        for (int j = 0; j < numlen-1; ++j) {
+        for (int j = i; j < numlen-1; ++j) {
             if ((*comparer)(*(nums+j), *(nums+j+1)) > 0){
                 swap((nums+j), (nums+j+1));
             }
