@@ -1,3 +1,6 @@
+// Selection Sort
+// mtso 2017
+
 #include <stdio.h>
 
 void check(int got, int want) {
