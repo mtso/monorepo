@@ -24,8 +24,10 @@ Path | Description
 `demo/node-cluster/` | Handle parallel HTTP requests by spawning a worker for each CPU.
 `demo/node-summarize/` | Getting article summaries from URLs.
 `demo/react-router/` | Basic follow-along with the react-router v4 documentation.
+`demo/scotty/` | Simple JSON server with Haskell's Scotty package.
 `demo/socket-client-server/` | **WIP** C socket server and client.
 `demo/tcp-client-server/` | Simple Go TCP server and client.
+`exercises/learnyouahaskell.com/` | Learn you a Haskell exercises.
 `src/base/` | Base API gateway for mtso.io. (Documentation, source code browser, etc.)
 `src/bin/` | `bin` is a library of executable scripts and the sources to compile them.
 `src/cha-service/` | Simple microservice JSON API server for use with tech demos.
