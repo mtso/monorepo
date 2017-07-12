@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chocolate Locker</title>
+  </head>
+  <body>
+    <p>Hi {{ .Username }}!</p>
+    <p><b>{{ .AppName }}</b> is requesting <b>full access</b> to your account.</p>
+    <p>Do you approve?</p>
+
+    <form action="/api/oauth2/authorize" method="POST">
+      <input name="transaction_id" type="hidden" value="{{ .TransactionID }}">
+      <input type="submit" value="Allow" id="allow">
+      <input type="submit" value="Deny" name="cancel" id="deny">
+    </form>
+  </body>
+</html>
