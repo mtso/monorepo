@@ -9,7 +9,7 @@ Path | Description
 `algorithms/bubble-sort/` | Bubble sort iteratively sorts an array of integers.
 `algorithms/insertion-sort/` | Insertion sort in C.
 `algorithms/map/` | **WIP** C hash table.
-`algorithms/merge-sort/` | Merge sort.
+`algorithms/merge-sort/` | Merge sort in Go.
 `algorithms/selection-sort/` | Selection sort in C swaps the largest/smallest in each iteration.
 `benchmark/go-react-render/` | Minimal React app to benchmark server-side rendering.  
 `demo/bricks.js/` | Integrate bricks.js masonry layout into React.

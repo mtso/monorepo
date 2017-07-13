@@ -1,4 +1,4 @@
 # merge sort
 
 [summary]::
-Merge sort.
+Merge sort in Go.
