@@ -8,6 +8,7 @@ Path | Description
 ---- | -----------
 `algorithms/bubble-sort/` | Bubble sort iteratively sorts an array of integers.
 `algorithms/insertion-sort/` | Insertion sort in C.
+`algorithms/json-parse/` | Roll-my-own JSON.parse function.
 `algorithms/map/` | **WIP** C hash table.
 `algorithms/merge-sort/` | Merge sort in Go.
 `algorithms/selection-sort/` | Selection sort in C swaps the largest/smallest in each iteration.
@@ -30,7 +31,8 @@ Path | Description
 `demo/socket-client-server/` | **WIP** C socket server and client.
 `demo/stack-overflow/` | Code snippets used for asking questions on stackoverflow.com.
 `demo/tcp-client-server/` | Simple Go TCP server and client.
-`exercises/learnyouahaskell.com/` | Learn you a Haskell exercises.
+`exercises/learnyouahaskell.com/` | Learn you a Haskell follow-along exercises.
+`lib/slice/` | A dynamic array similar to std::vector and Go slices.
 `src/base/` | Base API gateway for mtso.io. (Documentation, source code browser, etc.)
 `src/bin/` | `bin` is a library of executable scripts and the sources to compile them.
 `src/cha-service/` | Simple microservice JSON API server for use with tech demos.
