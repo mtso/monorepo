@@ -8,6 +8,7 @@ Path | Description
 ---- | -----------
 `algorithms/bubble-sort/` | Bubble sort iteratively sorts an array of integers.
 `algorithms/insertion-sort/` | Insertion sort in C.
+`algorithms/json-parse/` | Roll-my-own JSON.parse function.
 `algorithms/map/` | **WIP** C hash table.
 `algorithms/merge-sort/` | Merge sort in Go.
 `algorithms/selection-sort/` | Selection sort in C swaps the largest/smallest in each iteration.
