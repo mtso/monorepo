@@ -4,24 +4,30 @@ import (
 	"bufio"
 	"fmt"
 	"net"
-	"os"
+	// "os"
+	// "time"
 )
 
 func main() {
-	conn, err := net.Dial("tcp", "127.0.0.1:3750")
-	check(err)
 
-	for {
-		reader := bufio.NewReader(os.Stdin)
-		fmt.Print("Text to send: ")
-		text, err := reader.ReadString('\n')
-		check(err)
+	done := make(chan int)
 
-		fmt.Fprintf(conn, text+"\n")
-		msg, err := bufio.NewReader(conn).ReadString('\n')
-		check(err)
+	for i := 0; i < 40; i+=1 {
+		go func(num int) {
+			conn, err := net.Dial("tcp", "127.0.0.1:3750")
+			check(err)
 
-		fmt.Print("Message from server:", msg)
+			fmt.Fprintf(conn, fmt.Sprintf("ping %d\n", num))
+			msg, err := bufio.NewReader(conn).ReadString('\n')
+			check(err)
+
+			fmt.Println(msg)
+			done <- 0
+		}(i)
+	}
+
+	for i := 0; i < 40; i+=1 {
+		<-done
 	}
 }
 
