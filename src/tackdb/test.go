@@ -4,8 +4,8 @@ package main
 import (
 	"bufio"
 	"fmt"
-    "net"
-    "time"
+	"net"
+	"time"
 )
 
 func startServer() {
@@ -25,7 +25,7 @@ func startServer() {
 			panic(err)
 		}
 		fmt.Println(msg)
-		client.Write([]byte("echo: "+msg))
+		client.Write([]byte("echo: " + msg))
 	}
 }
 
@@ -34,19 +34,19 @@ func main() {
 
 	t := time.Tick(500)
 	select {
-		case <-t:
-			conn, err := net.Dial("tcp", "127.0.0.1:3750")
-			if err != nil {
-				panic(err)
-			}
+	case <-t:
+		conn, err := net.Dial("tcp", "127.0.0.1:3750")
+		if err != nil {
+			panic(err)
+		}
 
-			conn.Write([]byte("hello~\n"))
+		conn.Write([]byte("hello~\n"))
 
-			msg, err := bufio.NewReader(conn).ReadString('\n')
-			if err != nil {
-				panic(err)
-			}
+		msg, err := bufio.NewReader(conn).ReadString('\n')
+		if err != nil {
+			panic(err)
+		}
 
-			fmt.Println(msg)
+		fmt.Println(msg)
 	}
 }

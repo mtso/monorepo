@@ -33,6 +33,7 @@ func main() {
 		fmt.Fprintf(conn, text+"\n")
 
 		msg, err := serverOutput.ReadString('\n')
+		fmt.Println(msg)
 		if err == io.EOF {
 			fmt.Println("server disconnected.")
 			break
