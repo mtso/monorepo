@@ -43,3 +43,4 @@ Path | Description
 `src/logger-service/` | ELK stack logging server.
 `src/portfolio/` | Website portfolio.
 `src/realworld/` | Go web app implementing the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
+`src/tackdb-server/` | tackdb's server implementation.
