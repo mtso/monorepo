@@ -8,3 +8,4 @@ tackdb's server implementation.
 - can send commands to it
 - a TCP connection is long-running and does not drop until client closes.
 - should handle multiple connections.
+- need to handle client closing the connection.

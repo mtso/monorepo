@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"net"
 	"os"
 )
@@ -13,20 +14,29 @@ func main() {
 		panic(err)
 	}
 
-	resp := bufio.NewReader(conn)
-	reader := bufio.NewReader(os.Stdin)
+	serverOutput := bufio.NewReader(conn)
+	stdin := bufio.NewReader(os.Stdin)
+
+	msg, err := serverOutput.ReadString('\n')
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%v", msg)
 
 	for {
 		fmt.Print("Text to send: ")
-		text, err := reader.ReadString('\n')
+		text, err := stdin.ReadString('\n')
 		if err != nil {
 			panic(err)
 		}
 
 		fmt.Fprintf(conn, text+"\n")
 
-		msg, err := resp.ReadString('\n')
-		if err != nil {
+		msg, err := serverOutput.ReadString('\n')
+		if err == io.EOF {
+			fmt.Println("server disconnected.")
+			break
+		} else if err != nil {
 			panic(err)
 		}
 
