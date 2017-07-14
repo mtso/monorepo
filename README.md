@@ -34,6 +34,7 @@ Path | Description
 `docs/timetables/` | Personal plans for learning a technology or skill.
 `exercises/learnyouahaskell.com/` | Learn you a Haskell follow-along exercises.
 `lib/slice/` | A dynamic array similar to std::vector and Go slices.
+`lib/trim/` | Removes leading and trailing newlines.
 `src/base/` | Base API gateway for mtso.io. (Documentation, source code browser, etc.)
 `src/bin/` | `bin` is a library of executable scripts and the sources to compile them.
 `src/cha-service/` | Simple microservice JSON API server for use with tech demos.
@@ -43,4 +44,4 @@ Path | Description
 `src/logger-service/` | ELK stack logging server.
 `src/portfolio/` | Website portfolio.
 `src/realworld/` | Go web app implementing the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
-`src/tackdb-server/` | tackdb's server implementation.
+`src/tackdb/` | tackdb's server implementation.

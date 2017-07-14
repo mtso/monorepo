@@ -101,6 +101,7 @@ func handleClient(conn net.Conn, id float64) {
 		log.Println("got", bmsg)
 
 		msg := string(bmsg)
+		msg = strings.Trim(msg)
 
 		args := strings.Split(msg, " ")
 		// if len(args) == 1 && args[0][0] == 10 {
