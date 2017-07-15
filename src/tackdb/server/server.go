@@ -39,29 +39,7 @@ func (s *Server) Start(port string) error {
 	}
 	s.conn = &listener
 	InitStore()
-	commands = CommandTable{
-		"GET": func(key ...string) (string, error) {
-			if len(key) < 1 {
-				return "", ErrNoKey
-			}
-			value, ok := store.Get(key[0])
-			if !ok {
-				return "", ErrNil
-			}
-			return value, nil
-		},
-		"SET": func(args ...string) (string, error) {
-			if len(args) < 1 {
-				return "", ErrNoKey
-			} else if len(args) < 2 {
-				return "", ErrNoValue
-			}
-			key := args[0]
-			value := args[1]
-			store.Set(key, value)
-			return "SET 1", nil
-		},
-	}
+
 	return s.handle()
 }
 
@@ -77,21 +55,16 @@ func (s *Server) handle() error {
 	}
 }
 
-var commands CommandTable
-
-type CommandTable map[string]Command
-
-type Command func(...string) (string, error)
-
 func handleClient(conn net.Conn, id float64) {
 	conn.Write(startupmsg)
+	log.Printf("client connected. id=%v", id)
 
 	reader := bufio.NewReader(conn)
 
 	for {
 		bmsg, err := reader.ReadBytes('\n')
 		if err == io.EOF {
-			log.Printf("client id=%v %s", id, err)
+			log.Printf("client closed. id=%v", id)
 			break
 		} else if err != nil {
 			log.Println(err)
@@ -101,16 +74,16 @@ func handleClient(conn net.Conn, id float64) {
 		log.Println("got", bmsg)
 
 		msg := string(bmsg)
-		msg = strings.Trim(msg)
+		msg = strings.Trim(msg, "\n")
 
 		args := strings.Split(msg, " ")
-		// if len(args) == 1 && args[0][0] == 10 {
-		// 	resp := []byte("NOCOMMAND\n")
-		// 	log.Printf("Message received (%d): %q: %b\n", len(msg), msg, msg)
-		// 	log.Println("unrecognized command")
-		// 	conn.Write(resp)
-		// 	continue
-		// }
+		if len(args) == 1 && args[0][0] == 10 {
+			resp := []byte("NOCOMMAND\n")
+			log.Printf("Message received (%d): %q: %b\n", len(msg), msg, msg)
+			log.Println("unrecognized command")
+			conn.Write(resp)
+			continue
+		}
 
 		log.Printf("%q", args)
 		command := strings.ToUpper(args[0])

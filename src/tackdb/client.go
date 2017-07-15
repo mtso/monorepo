@@ -6,6 +6,7 @@ import (
 	"io"
 	"net"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -14,6 +15,7 @@ func main() {
 		panic(err)
 	}
 
+	// Wrap input/output pipes
 	serverOutput := bufio.NewReader(conn)
 	stdin := bufio.NewReader(os.Stdin)
 
@@ -26,14 +28,16 @@ func main() {
 	for {
 		fmt.Print("Text to send: ")
 		text, err := stdin.ReadString('\n')
+		fmt.Println(text, text1, text2)
 		if err != nil {
 			panic(err)
 		}
 
-		fmt.Fprintf(conn, text+"\n")
+		// text = strings.Trim(text, "\n")
+
+		fmt.Fprintf(conn, text)
 
 		msg, err := serverOutput.ReadString('\n')
-		fmt.Println(msg)
 		if err == io.EOF {
 			fmt.Println("server disconnected.")
 			break
@@ -41,6 +45,8 @@ func main() {
 			panic(err)
 		}
 
-		fmt.Print("Server response: ", msg)
+		// Log server response
+		msg = strings.Trim(msg, "\n")
+		fmt.Println(msg)
 	}
 }
