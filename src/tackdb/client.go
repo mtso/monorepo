@@ -28,7 +28,6 @@ func main() {
 	for {
 		fmt.Print("Text to send: ")
 		text, err := stdin.ReadString('\n')
-		fmt.Println(text, text1, text2)
 		if err != nil {
 			panic(err)
 		}
