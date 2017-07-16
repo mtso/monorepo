@@ -26,7 +26,7 @@ func main() {
 	fmt.Printf("%v", msg)
 
 	for {
-		fmt.Print("Text to send: ")
+		fmt.Print("> ")
 		text, err := stdin.ReadString('\n')
 		if err != nil {
 			panic(err)

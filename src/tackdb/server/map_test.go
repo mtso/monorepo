@@ -34,79 +34,79 @@ func TestServer(t *testing.T) {
 	}
 }
 
-// func TestMap(t *testing.T) {
-// 	port := "3750"
-// 	timeout := time.NewTimer(1000)
-// 	want := "bar"
-// 	start := make(chan error)
-// 	done := make(chan error)
-// 	close := make(chan error)
-// 	server := &Server{}
+func TestMap(t *testing.T) {
+	port := "3750"
+	timeout := time.NewTimer(1000)
+	want := "bar"
+	start := make(chan error)
+	done := make(chan error)
+	close := make(chan error)
+	server := &Server{}
 
-// 	go func() {
-// 		select {
-// 		case <-timeout.C:
-// 			start <- ErrTimeout
-// 			close <- ErrTimeout
-// 		}
-// 	}()
+	go func() {
+		select {
+		case <-timeout.C:
+			start <- ErrTimeout
+			close <- ErrTimeout
+		}
+	}()
 
-// 	go func() {
-// 		err := server.Start(port)
-// 		if err != nil {
-// 			start <- err
-// 			// t.Fatal(err)
-// 		}
-// 		defer server.Close()
+	go func() {
+		err := server.Start(port)
+		if err != nil {
+			start <- err
+			// t.Fatal(err)
+		}
+		defer server.Close()
 
-// 		start <- nil
+		start <- nil
 
-// 		done <- <-close
-// 	}()
+		done <- <-close
+	}()
 
-// 	err := <-start
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	err := <-start
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	// go func() {
-// 		client1, err := net.Dial("tcp", "127.0.0.1:"+port)
-// 		if err != nil {
-// 			t.Fatal(err)
-// 		}
-// 		defer client1.Close()
+	// go func() {
+		client1, err := net.Dial("tcp", "127.0.0.1:"+port)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer client1.Close()
 
-// 		client1.Write([]byte("SET foo " + want))
-// 	// }()
+		client1.Write([]byte("SET foo " + want))
+	// }()
 
-// 	// go func() {
-// 		client2, err := net.Dial("tcp", "127.0.0.1:"+port)
-// 		if err != nil {
-// 			t.Fatal(err)
-// 		}
-// 		defer client2.Close()
+	// go func() {
+		client2, err := net.Dial("tcp", "127.0.0.1:"+port)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer client2.Close()
 
-// 		time.Sleep(100)
-// 		client2.Write([]byte("GET foo"))
+		time.Sleep(100)
+		client2.Write([]byte("GET foo"))
 
-// 		msg, err := bufio.NewReader(client2).ReadString('\n')
-// 		if err != nil {
-// 			t.Fatal(err)
-// 		}
+		msg, err := bufio.NewReader(client2).ReadString('\n')
+		if err != nil {
+			t.Fatal(err)
+		}
 
-// 		if msg != want {
-// 			t.Errorf("Expected the response of \"GET foo\" == %s, but got %s", want, msg)
-// 		}
-// 		close <- nil
-// 	// }()
+		if msg != want {
+			t.Errorf("Expected the response of \"GET foo\" == %s, but got %s", want, msg)
+		}
+		close <- nil
+	// }()
 
-// 	err = <-done
-// 	if err != nil {
-// 		t.Fatal(err)
-// 	}
+	err = <-done
+	if err != nil {
+		t.Fatal(err)
+	}
 
-// 	isStopped := timeout.Stop()
-// 	if !isStopped {
-// 		t.Errorf("timeout should not have expired.")
-// 	}
-// }
+	isStopped := timeout.Stop()
+	if !isStopped {
+		t.Errorf("timeout should not have expired.")
+	}
+}

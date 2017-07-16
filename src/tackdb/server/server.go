@@ -3,6 +3,7 @@ package server
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net"
@@ -46,12 +47,63 @@ func (s *Server) Start(port string) error {
 func (s *Server) handle() error {
 	clientid := 1.0
 	for {
-		client, err := (*s.conn).Accept()
+		conn, err := (*s.conn).Accept()
 		if err != nil {
 			return err
 		}
-		go handleClient(client, clientid)
+
+		client := NewClient(conn, clientid)
+
+		go client.Serve()
 		clientid += 1
+
+		// go handleClient(client, clientid)
+		// clientid += 1
+	}
+}
+
+var ErrClientClosed = errors.New("client closed")
+
+func NewErrClientClosed(id float64) error {
+	errmsg := fmt.Sprintf("client closed. %v", id)
+	return errors.New(errmsg)
+}
+
+func parseCommand(r *io.Reader) error {
+	msg, err := r.ReadString('\n')
+	if err == io.EOF {
+		log.Printf("client closed. id=%v", id)
+		return NewErrClientClosed()
+	} else if err != nil {
+		log.Println(err)
+		continue
+	}
+
+	// msg := string(bmsg)
+	msg = strings.Trim(msg, "\n")
+	log.Printf("%q", msg)
+
+	args := strings.Split(msg, " ")
+
+	// Guard against an empty string.
+	if len(args) == 1 && args[0] == "" {
+		log.Printf("SKIP command=%q", args)
+	}
+
+	command := strings.ToUpper(args[0])
+	cmd, ok := commands[command]
+
+	if !ok {
+		conn.Write([]byte(ErrUnrecognizedCommand.Error() + "\n"))
+		continue
+	}
+
+	res, err := cmd(args[1:]...)
+	log.Printf("id=%v %s %s", id, res, err)
+	if err != nil {
+		conn.Write([]byte(err.Error() + "\n"))
+	} else {
+		conn.Write([]byte(res + "\n"))
 	}
 }
 
@@ -62,7 +114,7 @@ func handleClient(conn net.Conn, id float64) {
 	reader := bufio.NewReader(conn)
 
 	for {
-		bmsg, err := reader.ReadBytes('\n')
+		msg, err := reader.ReadString('\n')
 		if err == io.EOF {
 			log.Printf("client closed. id=%v", id)
 			break
@@ -71,39 +123,32 @@ func handleClient(conn net.Conn, id float64) {
 			continue
 		}
 
-		log.Println("got", bmsg)
-
-		msg := string(bmsg)
+		// msg := string(bmsg)
 		msg = strings.Trim(msg, "\n")
+		log.Printf("%q", msg)
 
 		args := strings.Split(msg, " ")
-		if len(args) == 1 && args[0][0] == 10 {
-			resp := []byte("NOCOMMAND\n")
-			log.Printf("Message received (%d): %q: %b\n", len(msg), msg, msg)
-			log.Println("unrecognized command")
-			conn.Write(resp)
-			continue
+
+		// Guard against an empty string.
+		if len(args) == 1 && args[0] == "" {
+			log.Printf("SKIP command=%q", args)
 		}
 
-		log.Printf("%q", args)
 		command := strings.ToUpper(args[0])
 		cmd, ok := commands[command]
-		log.Println("ok:", ok)
-		log.Printf("%q", cmd)
-		log.Printf("%q", commands)
+
 		if !ok {
 			conn.Write([]byte(ErrUnrecognizedCommand.Error() + "\n"))
 			continue
 		}
 
 		res, err := cmd(args[1:]...)
+		log.Printf("id=%v %s %s", id, res, err)
 		if err != nil {
 			conn.Write([]byte(err.Error() + "\n"))
 		} else {
 			conn.Write([]byte(res + "\n"))
 		}
-
-		// log.Println("Received:", msg)
 	}
 }
 
