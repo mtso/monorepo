@@ -1,24 +1,27 @@
 package server
 
 import (
-    "bufio"
-    "io"
-    "net"
-    "strings"
+	"bufio"
+	"io"
+	"net"
+	"strings"
 )
 
 type client struct {
-	conn net.Conn
+	conn   net.Conn
 	reader io.Reader
-	id float64
+	id     float64
+	table  CommandTable
 }
 
-func NewClient(conn net.Conn, id float64) {
-  return &client{
-    conn: conn,
-    id: id,
-    reader: bufio.NewReader(conn),
-  }
+func NewClient(conn net.Conn, id float64) *client {
+	c := &client{
+		conn:   conn,
+		id:     id,
+		reader: bufio.NewReader(conn),
+	}
+	c.table = newCommandTable(c)
+	return c
 }
 
 func (c *client) Write(msg string) error {
@@ -64,7 +67,7 @@ func (c *client) Serve() (err error) {
 		}
 
 		cmdname, args := args[0], args[1:]
-		cmd, ok := commands[cmdname]
+		cmd, ok := c.table[cmdname]
 		if !ok {
 			c.conn.Write(ErrUnrecognizedCommand.Error())
 			continue
@@ -81,4 +84,30 @@ func (c *client) Serve() (err error) {
 		}
 	}
 	return
+}
+
+func (c *client) newCommandTable(name string) CommandTable {
+	return &CommandTable{
+		"GET": func(key ...string) (string, error) {
+			if len(key) < 1 {
+				return "", ErrNoKey
+			}
+			value, ok := store.Get(key[0])
+			if !ok {
+				return "", ErrNil
+			}
+			return value, nil
+		},
+		"SET": func(args ...string) (string, error) {
+			if len(args) < 1 {
+				return "", ErrNoKey
+			} else if len(args) < 2 {
+				return "", ErrNoValue
+			}
+			key := args[0]
+			value := args[1]
+			store.Set(key, value)
+			return "SET 1", nil
+		},
+	}
 }
