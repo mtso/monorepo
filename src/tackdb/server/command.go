@@ -4,8 +4,8 @@ type CommandTable map[string]Command
 
 type Command func(...string) (string, error)
 
-var commands = CommandTable{
-	"GET": func(key ...string) (string, error) {
+var commands = map[string]UnboundCommand{
+	"GET": func(id float64, key ...string) (string, error) {
 		if len(key) < 1 {
 			return "", ErrNoKey
 		}
@@ -15,7 +15,7 @@ var commands = CommandTable{
 		}
 		return value, nil
 	},
-	"SET": func(args ...string) (string, error) {
+	"SET": func(id float64, args ...string) (string, error) {
 		if len(args) < 1 {
 			return "", ErrNoKey
 		} else if len(args) < 2 {

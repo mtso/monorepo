@@ -20,7 +20,12 @@ func NewClient(conn net.Conn, id float64) *client {
 		id:     id,
 		reader: bufio.NewReader(conn),
 	}
-	c.table = newCommandTable(c)
+
+	// Make new command table and bind to client.
+	c.table = make(map[string]Command)
+	for name, fn := range commands {
+		c.table[name] = c.bind(fn)
+	}
 	return c
 }
 
@@ -109,5 +114,13 @@ func (c *client) newCommandTable(name string) CommandTable {
 			store.Set(key, value)
 			return "SET 1", nil
 		},
+	}
+}
+
+type UnboundCommand func(float64, ...string) (string, error)
+
+func (c *client) bind(cmd UnboundCommand) Command {
+	return func(args ...string) (string, error) {
+		return cmd(c.id, args...)
 	}
 }
