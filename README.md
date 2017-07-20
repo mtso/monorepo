@@ -13,6 +13,7 @@ Path | Description
 `algorithms/merge-sort/` | Merge sort in Go.
 `algorithms/selection-sort/` | Selection sort in C swaps the largest/smallest in each iteration.
 `benchmark/go-react-render/` | Minimal React app to benchmark server-side rendering.  
+`demo/aws-sdk-node/` | EC2 follow-alongs for the AWS SDK.
 `demo/bricks.js/` | Integrate bricks.js masonry layout into React.
 `demo/catchall/` | Sketch of react-router on a 404.html catchall index.
 `demo/chocolate-bar/` | Bare-minimum authenticated web app in React, React Router, and Redis.
