@@ -1,0 +1,9 @@
+#! /bin/bash
+sudo echo "BEGIN USER DATA EXECUTION"
+sudo netstat -tulnp
+sudo pwd
+sudo ls
+sudo echo "HOME=$HOME"
+sudo echo $HOME
+sudo /home/ubuntu/echoserver &
+sudo echo "END USER DATA EXECUTION"
