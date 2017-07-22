@@ -1,0 +1,4 @@
+# demo/-specific gitignore
+
+node_modules/
+

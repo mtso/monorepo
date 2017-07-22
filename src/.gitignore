@@ -1,0 +1,8 @@
+# src/-specific gitignore
+
+build/
+dist/
+
+node_modules/
+
+
