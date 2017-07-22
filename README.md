@@ -32,6 +32,7 @@ Path | Description
 `demo/scotty/` | Simple JSON server with Haskell's Scotty package.
 `demo/socket-client-server/` | **WIP** C socket server and client.
 `demo/stack-overflow/` | Code snippets used for asking questions on stackoverflow.com.
+`demo/stream-node/` | Attach a header and pass request to another process, then pipe response.
 `demo/tcp-client-server/` | Simple Go TCP server and client.
 `docs/timetables/` | Personal plans for learning a technology or skill.
 `exercises/learnyouahaskell.com/` | Learn you a Haskell follow-along exercises.

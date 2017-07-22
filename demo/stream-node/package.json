@@ -1,0 +1,8 @@
+{
+  "name": "stream-node",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "request": "^2.81.0"
+  }
+}
