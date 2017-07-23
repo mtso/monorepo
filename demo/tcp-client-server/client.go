@@ -12,7 +12,7 @@ func main() {
 
 	done := make(chan int)
 
-	for i := 0; i < 40; i+=1 {
+	for i := 0; i < 40; i += 1 {
 		go func(num int) {
 			conn, err := net.Dial("tcp", "127.0.0.1:3750")
 			check(err)
@@ -26,7 +26,7 @@ func main() {
 		}(i)
 	}
 
-	for i := 0; i < 40; i+=1 {
+	for i := 0; i < 40; i += 1 {
 		<-done
 	}
 }

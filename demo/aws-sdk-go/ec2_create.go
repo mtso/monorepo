@@ -34,6 +34,7 @@ func main() {
 
 	svc := ec2.New(sess, &aws.Config{Region: region})
 	startscript := base64.StdEncoding.EncodeToString([]byte(userdata))
+	log.Println(startscript)
 
 	params := &ec2.RunInstancesInput{
 		KeyName:        aws.String("aws-eb2"),
@@ -41,7 +42,7 @@ func main() {
 		ImageId:        aws.String("ami-1a1a337a"),
 		MinCount:       aws.Int64(1),
 		MaxCount:       aws.Int64(1),
-		InstanceType:   aws.String("t2.nano"),
+		InstanceType:   aws.String("t2.micro"),
 		SecurityGroups: []*string{aws.String("sdk-connect")},
 		UserData:       aws.String(startscript),
 	}
