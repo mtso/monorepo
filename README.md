@@ -28,11 +28,12 @@ Path | Description
 `demo/middleware-js/` | Log middleware that wraps node's http request/response.
 `demo/node-cluster/` | Handle parallel HTTP requests by spawning a worker for each CPU.
 `demo/node-summarize/` | Getting article summaries from URLs.
+`demo/proxy-go/` | Go proxy server that attaches an additional Header value.
 `demo/react-router/` | Basic follow-along with the react-router v4 documentation.
 `demo/scotty/` | Simple JSON server with Haskell's Scotty package.
 `demo/socket-client-server/` | **WIP** C socket server and client.
 `demo/stack-overflow/` | Code snippets used for asking questions on stackoverflow.com.
-`demo/stream-node/` | Attach a header and pass request to another process, then pipe response.
+`demo/stream-node/` | Proxy server that pipes the request stream into response.
 `demo/tcp-client-server/` | Simple Go TCP server and client.
 `docs/timetables/` | Personal plans for learning a technology or skill.
 `exercises/learnyouahaskell.com/` | Learn you a Haskell follow-along exercises.
