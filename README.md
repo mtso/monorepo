@@ -31,6 +31,7 @@ Path | Description
 `demo/proxy-go/` | Go proxy server that attaches an additional Header value.
 `demo/react-router/` | Basic follow-along with the react-router v4 documentation.
 `demo/scotty/` | Simple JSON server with Haskell's Scotty package.
+`demo/signal/` | Server hot-reload by re-reading a config file on SIGIO signal.
 `demo/socket-client-server/` | **WIP** C socket server and client.
 `demo/stack-overflow/` | Code snippets used for asking questions on stackoverflow.com.
 `demo/stream-node/` | Proxy server that pipes the request stream into response.
