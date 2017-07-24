@@ -24,6 +24,7 @@ Path | Description
 `demo/goja/` | Run JavaScript from Go.
 `demo/gorm/` | Workspace to grow confidence in gorm, a ORM for Go.
 `demo/gs-rest-service/` | Spring RESTFUL web service hello world follow-along.
+`demo/jwt/` | Demo jwt signing and verification using `github.com/dgrijalva/jwt-go`.
 `demo/middleware-go/` | Logging middleware that wraps the native http.ResponseWriter.
 `demo/middleware-js/` | Log middleware that wraps node's http request/response.
 `demo/node-cluster/` | Handle parallel HTTP requests by spawning a worker for each CPU.
