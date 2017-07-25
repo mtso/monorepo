@@ -38,6 +38,7 @@ Path | Description
 `demo/stream-node/` | Proxy server that pipes the request stream into response.
 `demo/tcp-client-server/` | Simple Go TCP server and client.
 `docs/timetables/` | Personal plans for learning a technology or skill.
+`exercises/kolodny/curry/` | Write a currying function that returns the curry-ed callback.
 `exercises/learnyouahaskell.com/` | Learn you a Haskell follow-along exercises.
 `lib/slice/` | A dynamic array similar to std::vector and Go slices.
 `lib/trim/` | Removes leading and trailing newlines.
