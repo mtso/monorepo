@@ -29,6 +29,7 @@ Path | Description
 `demo/middleware-js/` | Log middleware that wraps node's http request/response.
 `demo/node-cluster/` | Handle parallel HTTP requests by spawning a worker for each CPU.
 `demo/node-summarize/` | Getting article summaries from URLs.
+`demo/passport-jwt/` | Authenticate with Passport JWT and custom extractor of form `Authorization: Bearer [token]`.
 `demo/proxy-go/` | Go proxy server that attaches an additional Header value.
 `demo/react-router/` | Basic follow-along with the react-router v4 documentation.
 `demo/scotty/` | Simple JSON server with Haskell's Scotty package.
