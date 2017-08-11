@@ -20,6 +20,7 @@ Path | Description
 `demo/chocolate-bar/` | Bare-minimum authenticated web app in React, React Router, and Redis.
 `demo/crypto-go/` | Experiments with Go's `crypto` package.
 `demo/csharp-tcp-server/` | Web server implemented using .NET's TCPListener.
+`demo/daemon/` | Run a program as a daemon that returns exec to shell, but runs in background.
 `demo/dynamic-react/` | Experiments in manipulating the React component tree at runtime.
 `demo/goja/` | Run JavaScript from Go.
 `demo/gorm/` | Workspace to grow confidence in gorm, a ORM for Go.
@@ -31,6 +32,8 @@ Path | Description
 `demo/node-summarize/` | Getting article summaries from URLs.
 `demo/passport-jwt/` | Authenticate with Passport JWT and custom extractor of form `Authorization: Bearer [token]`.
 `demo/proxy-go/` | Go proxy server that attaches an additional Header value.
+`demo/proxy-hot-reload/` | A reverse proxy that flip-flops between routes.
+`demo/react-apollo/` | GraphQL Hacker News tutorial with React and Apollo.
 `demo/react-router/` | Basic follow-along with the react-router v4 documentation.
 `demo/scotty/` | Simple JSON server with Haskell's Scotty package.
 `demo/signal/` | Server hot-reload by re-reading a config file on SIGIO signal.
