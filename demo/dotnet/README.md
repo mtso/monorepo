@@ -121,7 +121,7 @@ Example Response
 }
 ```
 
-### Update word
+### Update a word
 
 URL Endpoint: `PUT /api/word/:id`
 
@@ -149,7 +149,7 @@ Example Response
 }
 ```
 
-### Get word data
+### Get specific word
 
 URL Endpoint: `GET /api/word/:id`
 
@@ -157,6 +157,31 @@ Example Request
 
 ```
 GET /api/word/123
+```
+
+Example Response
+
+```json
+{
+  "is_success": true,
+  "message": null,
+  "content": {
+    "id": 123,
+    "value": "attention",
+    "level": 2,
+    "created_on": "2017-08-11T13:46:57.48"
+  }
+}
+```
+
+### Delete word
+
+URL Endpoint: `DELETE /api/word/:id`
+
+Example Request
+
+```
+DELETE /api/word/123
 ```
 
 Example Response

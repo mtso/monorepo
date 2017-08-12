@@ -1,0 +1,340 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Words Test Suite</title>
+    
+    <link rel='stylesheet' type="text/css" href='https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css'>
+
+    <style>
+    #start {
+      margin: 0;
+      padding: 0;
+      display: inline-block;
+    }
+
+    .header {
+    /*   background-color: pink; */
+      height: 2.6em;
+    /*   width: 100%; */
+      z-index: 10000;
+      
+      padding-left: 2em;
+    }
+
+    #start, #url {
+      margin: 1.2em 0.2em;
+    }
+
+    #url {
+      height: 1.3em;
+      border: 1px solid lightgray;
+      border-radius: 1px;
+      width: 240px;
+    }
+
+    #url:focus {
+      border: 1px solid blue;
+      box-shadow: 0 0 0 2.5pt lightblue;
+      outline: none;
+    }
+
+    #mocha-stats {
+      background-color: white;
+    }
+
+    .passes a {
+      padding-left: 1em;
+    }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <form id='start'>
+        <label for='url'>API Base Endpoint</label>
+        <input type='text' name='url' id='url' />
+        <input id='start-button' type='submit' value='Start' />
+      </form>
+      <button id='restart'>Reload</button>
+    </header>
+
+    <div id="mocha"></div>
+
+    <script src='https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/chai/4.1.1/chai.min.js'></script>
+    <script src='https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js'></script>
+
+    <script>
+    (function() {
+
+    function add(a, b) {
+      return a + b
+    }
+
+    mocha.setup('bdd')
+    const expect = chai.expect
+    var baseUrl
+
+    /// Test suite begin
+
+    describe('Word API', function() {
+      before(function(done) {
+        // create new words
+        done()
+      })
+
+      describe('Get a random word', function() {
+        describe('GET /api/word', function() {
+          var status
+          var body
+
+          before(function(done) {
+            fetch(baseUrl + '/api/word')
+              .then(function(data) {
+                status = data.status
+                return data.json()
+              })
+              .then(function(json) { body = json })
+              .then(done)
+              .catch(done)
+          })
+
+          it('should be a route', function() {
+            expect(status).to.eq(200)
+          })
+
+          it('should be successful', function() {
+            expect(body.is_success).to.eq(true)
+          })
+
+          it('should have no error message', function() {
+            expect(body.message).to.eq(null)
+          })
+
+          it('should match Word model', function() {
+            const word = body.content
+            expect(word.id).to.exist
+            expect(word.id).to.be.a('number')
+            expect(word.value).to.exist
+            expect(word.value).to.be.a('string')
+            expect(word.level).to.exist
+            expect(word.level).to.be.a('number')
+            expect(word.created_on).to.exist
+            expect(word.level).to.be.instanceof(Date)
+          })
+        })
+      })
+
+      describe('Get word list', function() {
+        describe('GET /api/words', function() {
+          var status
+          var body
+
+          before(function(done) {
+            fetch(baseUrl + '/api/words')
+              .then(function(data) {
+                status = data.status
+                return data.json()
+              })
+              .then(function(json) { body = json })
+              .then(done)
+              .catch(done)
+          })
+
+          it('should be a route', function() {
+            expect(status).to.eq(200)
+          })
+
+          it('should be successful', function() {
+            expect(body.is_success).to.eq(true)
+          })
+
+          it('should have no error message', function() {
+            expect(body.message).to.eq(null)
+          })
+
+          it('should be a list', function() {
+            expect(body.content).to.be.instanceof(Array)
+          })
+        })
+
+        describe('GET /api/words?level=1', function() {
+          var status
+          var body
+
+          before(function(done) {
+            fetch(baseUrl + '/api/words?level=1')
+              .then(function(data) {
+                status = data.status
+                return data.json()
+              })
+              .then(function(json) { body = json })
+              .then(done)
+              .catch(done)
+          })
+
+          it('should be a route', function() {
+            expect(status).to.eq(200)
+          })
+
+          it('should be successful', function() {
+            expect(body.is_success).to.eq(true)
+          })
+
+          it('should have no error message', function() {
+            expect(body.message).to.eq(null)
+          })
+
+          it('should be only level 1 words', function() {
+            const isLevel1 = body.content.every(function(word) {
+              return word.level === 1
+            })
+            expect(isLevel1).to.be.true
+          })
+        })
+      })
+
+      describe('Add new word', function() {
+        describe('POST /api/word', function() {
+          var status
+          var body
+
+          before(function(done) {
+            var options = {
+              method: 'POST',
+              body: {
+                value: 'fantasy',
+                level: 1,
+              }
+            }
+            fetch(baseUrl + '/api/word', options)
+              .then(function(data) {
+                status = data.status
+                return data.json()
+              })
+              .then(function(json) { body = json })
+              .then(done)
+              .catch(done)
+          })
+
+          it('should be a route', function() {
+            expect(status).to.eq(200)
+          })
+
+          it('should be successful', function() {
+            expect(body.is_success).to.eq(true)
+          })
+
+          it('should have no error message', function() {
+            expect(body.message).to.eq(null)
+          })
+
+          it('should match Word model', function() {
+            const word = body.content
+            expect(word.id).to.exist
+            expect(word.id).to.be.a('number')
+            expect(word.value).to.exist
+            expect(word.value).to.be.a('string')
+            expect(word.level).to.exist
+            expect(word.level).to.be.a('number')
+            expect(word.created_on).to.exist
+            expect(word.level).to.be.instanceof(Date)
+          })
+
+          describe('should not add duplicate', function() {
+            it('should return an error message', function() {
+              throw new Error('not implemented')
+            })
+          })
+        })
+      })
+
+      describe('Update a word', function() {
+        describe('PUT /api/word/1', function() {
+          it('', function() {
+            throw new Error('not implemented')
+          })
+        })
+      })
+
+      describe('Get specific word', function() {
+        describe('GET /api/word/1', function() {
+          it('', function() {
+            throw new Error('not implemented')
+          })
+        })
+      })
+
+      describe('Delete a word', function() {
+        describe('DELETE /api/word/1', function() {
+          it('', function() {
+            throw new Error('not implemented')
+          })
+        })
+      })
+    })
+
+    /// Test suite end
+      
+    mocha.checkLeaks();
+    mocha.globals([]);
+
+    const start = document.getElementById('start')
+    const urlField = document.getElementById('url')
+    const startButton = document.getElementById('start-button')
+    const restartButton = document.getElementById('restart')
+
+    setTimeout(function() {
+      urlField.value = getUrl()
+    }, 0)
+
+    if (location.href.includes('grep')) {
+      setTimeout(function() {
+        runTests({
+          preventDefault: function() {},
+          target: {
+            elements: {
+              url: {value: getUrl()},
+            },
+          },
+        })
+      }, 0)
+    } else {
+      start.addEventListener('submit', runTests)
+    }
+
+    function runTests(e) {
+      e.preventDefault()
+      baseUrl = trimSlash(e.target.elements['url'].value)
+
+      if (baseUrl === '') { return }
+      
+      saveUrl(baseUrl)
+      startButton.setAttribute('disabled', true)
+      mocha.run();
+    }
+
+    restartButton.addEventListener('click', function(e) {
+      location.href = location.href.split('?')[0]
+    })
+
+    // Base URL Cache Utility
+
+    var STORAGE_KEY = 'words_test_url'
+
+    function saveUrl(url) {
+      window.localStorage.setItem(STORAGE_KEY, url)
+    }
+
+    function getUrl() {
+      return window.localStorage[STORAGE_KEY] || ''
+    }
+
+    function trimSlash(string) {
+      return string.replace(/^\//, '').replace(/\/$/, '')
+    }
+
+    })()
+    </script>
+  </body>
+</html>

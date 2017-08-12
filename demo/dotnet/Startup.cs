@@ -23,9 +23,9 @@ namespace dotnet
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+            
             Configuration = builder.Build();
-
-            // Console.WriteLine(Configuration.GetSection("ConnectionStrings")["DefaultConnection"]); //.GetValue<string>("DefaultConnection"));
+            connectionString = Configuration.GetSection("ConnectionStrings").GetValue<string>("DefaultConnection");
         }
 
         public static IConfigurationRoot Configuration { get; set; }
@@ -38,9 +38,9 @@ namespace dotnet
             services.AddMvc();
         }
 
-        public static Func<DbConnection> ConnectionFactory = () => new SqlConnection(
-            Startup.Configuration.GetSection("ConnectionStrings").GetValue<string>("DefaultConnection")
-        );
+        private static string connectionString { get; set; }
+
+        public static Func<DbConnection> ConnectionFactory = () => new SqlConnection(connectionString);
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,17 +8,48 @@ using Dapper;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 using System.Data.Common;
-// using dotnet.Startup;
-// using Microsoft.AspNetCore.Mvc;
 
 namespace dotnet.Controllers
 {
-    public class ListResult {
-        public List<string> list;
+    public class ApiResult {
+        public Boolean is_success;
+        public string message;
+        public object content;
+    }
+
+    public class TempWord {
+        public int id;
+        public string value;
     }
 
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class WordController : Controller
+    {
+        // public static Func<DbConnection> ConnectionFactory = () => new SqlConnection(
+        //     "User ID=sa;Password=p@ssw0rd;Server=localhost;Database=Words;Trusted_Connection=false;;Max Pool Size=1000;"
+        // );
+
+        // GET api/values
+        [HttpGet]
+        public JsonResult Get()
+        {
+            HttpContext.Response.Headers["Access-Control-Allow-Origin"] = "*";
+
+            ApiResult res = new ApiResult();
+            res.is_success = true;
+
+            TempWord tmp = new TempWord();
+            tmp.id = 123;
+            tmp.value = "attention";
+            res.content = tmp;
+            // res.content = "{\"id\":123,\"value\":\"attention\"}";
+
+            return Json(res);
+        }
+    }
+
+    [Route("api/[controller]")]
+    public class WordsController : Controller
     {
         // public static Func<DbConnection> ConnectionFactory = () => new SqlConnection(
         //     "User ID=sa;Password=p@ssw0rd;Server=localhost;Database=Words;Trusted_Connection=false;;Max Pool Size=1000;"
@@ -49,33 +80,6 @@ namespace dotnet.Controllers
             HttpContext.Response.Headers["Access-Control-Allow-Origin"] = "*";
 
             return Json(res);
-        }
-
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            HttpContext.Response.Headers["Access-Control-Allow-Origin"] = "*";
-
-            return "value" + id;
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
