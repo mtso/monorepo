@@ -8,6 +8,7 @@ using Dapper;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 using System.Data.Common;
+using dotnet.Models;
 
 namespace dotnet.Controllers
 {
@@ -25,25 +26,30 @@ namespace dotnet.Controllers
     [Route("api/[controller]")]
     public class WordController : Controller
     {
-        // public static Func<DbConnection> ConnectionFactory = () => new SqlConnection(
-        //     "User ID=sa;Password=p@ssw0rd;Server=localhost;Database=Words;Trusted_Connection=false;;Max Pool Size=1000;"
-        // );
-
         // GET api/values
-        [HttpGet]
-        public JsonResult Get()
+        [HttpGet("{id}")]
+        public JsonResult Get(int id)
         {
-            HttpContext.Response.Headers["Access-Control-Allow-Origin"] = "*";
+            string sql = @"SELECT * FROM Words
+            WHERE id=@WordID";
 
             ApiResult res = new ApiResult();
-            res.is_success = true;
 
-            TempWord tmp = new TempWord();
-            tmp.id = 123;
-            tmp.value = "attention";
-            res.content = tmp;
-            // res.content = "{\"id\":123,\"value\":\"attention\"}";
+            using (var connection = Startup.ConnectionFactory())
+            {
+                connection.Open();
+                try {
+                    Word row = connection.QuerySingle<Word>(sql, new {WordID = id});
 
+                    res.content = row;
+                }
+                catch(Exception err) {
+                    res.message = "Invalid ID: " + id;
+                }
+            }
+
+            res.is_success = res.message == null;
+            HttpContext.Response.Headers["Access-Control-Allow-Origin"] = "*";
             return Json(res);
         }
     }
@@ -59,7 +65,7 @@ namespace dotnet.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string sql = "select name from sysdatabases;";
+            string sql = @"select name from sysdatabases;";
 
             List<string> names = new List<string>();
             ListResult res = new ListResult();

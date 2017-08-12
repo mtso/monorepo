@@ -26,6 +26,39 @@ namespace dotnet
             
             Configuration = builder.Build();
             connectionString = Configuration.GetSection("ConnectionStrings").GetValue<string>("DefaultConnection");
+            // SetUpDatabase();
+        }
+
+        private void SetUpDatabase() {
+            string sql = @"USE Words
+            GO
+
+            IF NOT EXISTS ( SELECT * FROM Words )
+            BEGIN
+            CREATE TABLE words.[Words] (
+                id bigint IDENTITY(1,1) PRIMARY KEY,
+                value varchar(255) NOT NULL UNIQUE,
+                level int NOT NULL,
+                created_on DateTime2 NOT NULL DEFAULT GETDATE() -- CONSTRAINT DF_Words_created_on DEFAULT ( SYSDATETIME() ),
+
+                -- CONSTRAINT UC_Words UNIQUE (id, value),
+                INDEX IX_Words NONCLUSTERED (level)
+            )
+            END
+            ELSE
+            BEGIN
+                SELECT * FROM Words
+            END
+            ";
+
+            using (var connection = ConnectionFactory())
+            {
+                connection.Open();
+
+                var result = connection.Query(sql);
+
+                Console.WriteLine(result);
+            }
         }
 
         public static IConfigurationRoot Configuration { get; set; }

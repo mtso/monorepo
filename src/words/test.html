@@ -13,9 +13,7 @@
     }
 
     .header {
-    /*   background-color: pink; */
       height: 2.6em;
-    /*   width: 100%; */
       z-index: 10000;
       
       padding-left: 2em;
@@ -73,7 +71,7 @@
 
     mocha.setup('bdd')
     const expect = chai.expect
-    var baseUrl
+    
 
     /// Test suite begin
 
@@ -278,7 +276,7 @@
       
     mocha.checkLeaks();
     mocha.globals([]);
-
+    var baseUrl
     const start = document.getElementById('start')
     const urlField = document.getElementById('url')
     const startButton = document.getElementById('start-button')
