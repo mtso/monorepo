@@ -11,16 +11,6 @@ using Microsoft.Extensions.Options;
 
 namespace middleware_dotnet
 {
-    public interface IDemoService {
-        int GetNum();
-    }
-
-    public class DemoService: IDemoService {
-        public int GetNum() {
-            return 42;
-        }
-    }
-
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -45,6 +35,7 @@ namespace middleware_dotnet
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddProvider(new MyLoggerProvider());
 
             if (env.IsDevelopment())
             {

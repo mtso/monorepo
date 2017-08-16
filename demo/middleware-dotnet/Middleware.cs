@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace middleware_dotnet
 {
@@ -15,6 +16,9 @@ namespace middleware_dotnet
 
         public async Task Invoke(HttpContext httpContext)
         {
+            IDemoService d = httpContext.RequestServices.GetService<IDemoService>();
+            Console.WriteLine("FROM MIDDLEWARE GetService {0}", d.GetNum());
+            
             Console.WriteLine($"Request for {httpContext.Request.Path} received ({httpContext.Request.ContentLength ?? 0} bytes)");
 
             try {
