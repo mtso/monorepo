@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace middleware_dotnet.Controllers
 {
@@ -13,11 +14,13 @@ namespace middleware_dotnet.Controllers
     {
         private ILoggerFactory _Factory;
         private ILogger _Logger;
+        private readonly IDemoService _demoService;
 
-        public ValuesController(ILoggerFactory factory, ILogger<ValuesController> logger)
+        public ValuesController(ILoggerFactory factory, ILogger<ValuesController> logger, IDemoService demoService)
         {
             _Factory = factory;
             _Logger = logger;
+            _demoService = demoService;
         }
 
         // GET api/values
@@ -28,17 +31,27 @@ namespace middleware_dotnet.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        [HttpGet("{a}/{b}")]
+        public string Get(int a, int b)
+        {
+            return "another test";
+        }
+
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
+            var svc = HttpContext.RequestServices.GetService<IDemoService>();
+            Console.WriteLine("From services {0}", svc.GetNum());
+            Console.WriteLine("From direct dependency injection {0}", _demoService.GetNum());
+
             var loggerFromDI = _Factory.CreateLogger("Values");
-            // var loggerFactory = this.HttpContext.RequestServices.GetService<ValuesController>();
-            // var loggerFromServices = loggerFactory.CreateLogger("Values");
+            var loggerFactory = this.HttpContext.RequestServices.GetService<ILoggerFactory>();
+            var loggerFromServices = loggerFactory.CreateLogger("Values");
 
             _Logger.LogDebug("From direct dependency injection");
             loggerFromDI.LogDebug("From dependency injection factory");
-            // loggerFromServices.LogDebug("From services");
+            loggerFromServices.LogDebug("From services");
 
             return "value";
         }

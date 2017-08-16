@@ -11,6 +11,16 @@ using Microsoft.Extensions.Options;
 
 namespace middleware_dotnet
 {
+    public interface IDemoService {
+        int GetNum();
+    }
+
+    public class DemoService: IDemoService {
+        public int GetNum() {
+            return 42;
+        }
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -23,10 +33,10 @@ namespace middleware_dotnet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<Temp>();
-            // services.AddLogging();
-            // services.AddSingleton<ILoggerFactory, LoggerFactory>();
-            // services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            // Below both are same.
+            services.AddSingleton<ILoggerFactory, LoggerFactory>();
+            services.AddSingleton<IDemoService>(new DemoService());
+
             services.AddMvc();
         }
 
