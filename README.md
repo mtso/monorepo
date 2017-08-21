@@ -20,12 +20,13 @@ Path | Description
 `demo/chocolate-bar/` | Bare-minimum authenticated web app in React, React Router, and Redis.
 `demo/crypto-go/` | Experiments with Go's `crypto` package.
 `demo/csharp-tcp-server/` | Web server implemented using .NET's TCPListener.
-`demo/daemon/` | Run a program as a daemon that returns exec to shell, but runs in background.
 `demo/dynamic-react/` | Experiments in manipulating the React component tree at runtime.
 `demo/goja/` | Run JavaScript from Go.
 `demo/gorm/` | Workspace to grow confidence in gorm, a ORM for Go.
 `demo/gs-rest-service/` | Spring RESTFUL web service hello world follow-along.
 `demo/jwt/` | Demo jwt signing and verification using `github.com/dgrijalva/jwt-go`.
+`demo/logdemo/` | Demo log4net and a custom appender to database.
+`demo/middleware-dotnet/` | Demo dotnet middleware, service, and Singleton patterns.
 `demo/middleware-go/` | Logging middleware that wraps the native http.ResponseWriter.
 `demo/middleware-js/` | Log middleware that wraps node's http request/response.
 `demo/node-cluster/` | Handle parallel HTTP requests by spawning a worker for each CPU.
@@ -42,6 +43,7 @@ Path | Description
 `demo/stream-node/` | Proxy server that pipes the request stream into response.
 `demo/tcp-client-server/` | Simple Go TCP server and client.
 `docs/timetables/` | Personal plans for learning a technology or skill.
+`exercises/cryptopals/` | cryptopals.com exercises
 `exercises/kolodny/curry/` | Write a currying function that returns the curry-ed callback.
 `exercises/learnyouahaskell.com/` | Learn you a Haskell follow-along exercises.
 `lib/slice/` | A dynamic array similar to std::vector and Go slices.
@@ -56,3 +58,4 @@ Path | Description
 `src/portfolio/` | Website portfolio.
 `src/realworld/` | Go web app implementing the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 `src/tackdb/` | tackdb's server implementation.
+`src/words/` | Build a web API server using dotnet and persist data using SQL Server.
