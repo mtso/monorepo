@@ -128,7 +128,7 @@ func (d data) ToBase64() string {
 	buffer := _buffer64frombytes(len(d))
 
 	i, j := 0, 0
-	for ; i < len(d) - 2; i += 3 {
+	for ; i < len(d)-2; i += 3 {
 		buffer[j] = itob[int(d[i]>>2)]
 		buffer[j+1] = itob[int(((d[i]&3)<<4)|d[i+1]>>4)]
 		buffer[j+2] = itob[int(((d[i+1]&15)<<2)|(d[i+2]>>6))]
@@ -136,13 +136,13 @@ func (d data) ToBase64() string {
 		j += 4
 	}
 
-	if len(buffer) - j > 0 {
+	if len(buffer)-j > 0 {
 		buffer[j] = itob[int(d[i]>>2)]
 	}
-	if len(buffer) - j > 1 {
+	if len(buffer)-j > 1 {
 		buffer[j+1] = itob[int(((d[i]&3)<<4)|d[i+1]>>4)]
 	}
-	if len(buffer) - j > 2 {
+	if len(buffer)-j > 2 {
 		buffer[j+2] = itob[int(((d[i+1]&15)<<2)|(d[i+2]>>6))]
 	}
 
@@ -191,13 +191,13 @@ func bto6(bin []byte) string {
 		j += 4
 	}
 
-	if len(buffer) - j > 0 {
+	if len(buffer)-j > 0 {
 		buffer[j] = itob[int(bin[i]>>2)]
 	}
-	if len(buffer) - j > 1 {
+	if len(buffer)-j > 1 {
 		buffer[j+1] = itob[int(((bin[i]&3)<<4)|bin[i+1]>>4)]
 	}
-	if len(buffer) - j > 2 {
+	if len(buffer)-j > 2 {
 		buffer[j+2] = itob[int(((bin[i+1]&15)<<2)|(bin[i+2]>>6))]
 	}
 
