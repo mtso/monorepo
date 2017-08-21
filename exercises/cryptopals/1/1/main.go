@@ -125,34 +125,32 @@ func DecodeHex(encoded string) data {
 }
 
 func (d data) ToBase64() string {
-	buffer := _buffer64frombytes(len(d))
+	temp := d
+	if len(d)%3 > 0 {
+		padding := make([]byte, 3-len(d)%3)
+		temp = append(d, padding...)
+	}
+	buffer := make([]byte, (len(temp)/3)*4)
 
 	i, j := 0, 0
-	for ; i < len(d)-2; i += 3 {
-		buffer[j] = itob[int(d[i]>>2)]
-		buffer[j+1] = itob[int(((d[i]&3)<<4)|d[i+1]>>4)]
-		buffer[j+2] = itob[int(((d[i+1]&15)<<2)|(d[i+2]>>6))]
-		buffer[j+3] = itob[int(d[i+2]&63)]
+	for ; i < len(d); i += 3 {
+		buffer[j] = itob[int(temp[i]>>2)]
+		buffer[j+1] = itob[int(((temp[i]&3)<<4)|temp[i+1]>>4)]
+		buffer[j+2] = itob[int(((temp[i+1]&15)<<2)|(temp[i+2]>>6))]
+		buffer[j+3] = itob[int(temp[i+2]&63)]
 		j += 4
 	}
 
-	if len(buffer)-j > 0 {
-		buffer[j] = itob[int(d[i]>>2)]
-	}
-	if len(buffer)-j > 1 {
-		buffer[j+1] = itob[int(((d[i]&3)<<4)|d[i+1]>>4)]
-	}
-	if len(buffer)-j > 2 {
-		buffer[j+2] = itob[int(((d[i+1]&15)<<2)|(d[i+2]>>6))]
+	// Pad extra
+	for k := len(temp) - len(d); k > 0; k-- {
+		buffer[len(buffer)-k] = '='
 	}
 
 	return string(buffer)
 }
 
 func main() {
-	buf := DecodeHex(str)
-
-	fmt.Println(buf.ToBase64())
+	fmt.Println(DecodeHex(str).ToBase64())
 }
 
 func htob(encoded string) []byte {
@@ -176,43 +174,3 @@ func htob(encoded string) []byte {
 }
 
 func isEven(i int) bool { return i%2 == 0 }
-
-// unpack every 6 bits into a byte array
-// then return string constructed from byte array
-func bto6(bin []byte) string {
-	buffer := _buffer64frombytes(len(bin))
-
-	i, j := 0, 0
-	for ; i < len(bin); i += 3 {
-		buffer[j] = itob[int(bin[i]>>2)]
-		buffer[j+1] = itob[int(((bin[i]&3)<<4)|bin[i+1]>>4)]
-		buffer[j+2] = itob[int(((bin[i+1]&15)<<2)|(bin[i+2]>>6))]
-		buffer[j+3] = itob[int(bin[i+2]&63)]
-		j += 4
-	}
-
-	if len(buffer)-j > 0 {
-		buffer[j] = itob[int(bin[i]>>2)]
-	}
-	if len(buffer)-j > 1 {
-		buffer[j+1] = itob[int(((bin[i]&3)<<4)|bin[i+1]>>4)]
-	}
-	if len(buffer)-j > 2 {
-		buffer[j+2] = itob[int(((bin[i+1]&15)<<2)|(bin[i+2]>>6))]
-	}
-
-	return string(buffer)
-}
-
-func _buffer64frombytes(bytes int) []byte {
-	buflen := (bytes / 3) * 4
-
-	rem := bytes % 3
-	if rem == 1 {
-		buflen += 1
-	} else if rem == 2 {
-		buflen += 2
-	}
-
-	return make([]byte, buflen)
-}
