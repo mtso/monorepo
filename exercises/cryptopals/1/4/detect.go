@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/hex"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -15,33 +16,22 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
-	// var found []byte
-
 	strings := bytes.Split(buf, []byte{'\n'})
 
 	for i, str := range strings {
-		// str := strings[0]
-		// i := 1
-		for j := byte('A'); j < byte('Z'); j++ {
-			decoded := xorWith(str, j)
-
-			if len(alphaPattern.FindAll(decoded, -1)) > 53 {
-				spaceCount := count(decoded, ' ')
-				// if spaceCount > 0 {
-				fmt.Printf("%q %d %q line=%d\n", j, spaceCount, decoded, i)
-				// }
-			}
+		str, err := hex.DecodeString(string(str))
+		if err != nil {
+			fmt.Println(err)
+			continue
 		}
 
-		for j := byte('a'); j < byte('z'); j++ {
+		for j := byte(0); j < byte(255); j++ {
 			decoded := xorWith(str, j)
 
-			if len(alphaPattern.FindAll(decoded, -1)) > 53 {
-				spaceCount := count(decoded, ' ')
-				// if spaceCount > 0 {
-				fmt.Printf("%q %d %q line=%d\n", j, spaceCount, decoded, i)
-				// }
+			numSpace := count(decoded, ' ')
+
+			if numSpace > 4 {
+				fmt.Printf("%q %d %q line=%d\n", j, numSpace, decoded, i)
 			}
 		}
 	}
