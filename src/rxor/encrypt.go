@@ -6,6 +6,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/hex"
 	"flag"
 	"fmt"
@@ -27,9 +28,23 @@ func main() {
 		panic(err)
 	}
 
-	out := Key(*key).Encrypt(in)
+	if isHex(in) {
+		decoded := make([]byte, len(in)/2)
 
-	fmt.Print(hex.EncodeToString(out))
+		_, err = hex.Decode(decoded, in)
+		if err != nil {
+			panic(err)
+		}
+
+		out := Key(*key).Encrypt(decoded)
+
+		fmt.Printf("%s", out)
+
+	} else {
+		out := Key(*key).Encrypt(in)
+
+		fmt.Print(hex.EncodeToString(out))
+	}
 }
 
 // Encrypt encodes the input byte array with a repeating-key XOR method.
@@ -39,4 +54,18 @@ func (k Key) Encrypt(in []byte) []byte {
 		out[i] = in[i] ^ k[i%len(k)]
 	}
 	return out
+}
+
+func isHex(test []byte) bool {
+	test = bytes.ToUpper(test)
+
+	for i := 0; i < len(test); i++ {
+		isAF := test[i] >= byte('A') && test[i] <= byte('F')
+		is09 := test[i] >= byte('0') && test[i] <= byte('9')
+
+		if !(isAF || is09) {
+			return false
+		}
+	}
+	return true
 }
