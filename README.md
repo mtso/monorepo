@@ -31,6 +31,7 @@ Path | Description
 `demo/middleware-js/` | Log middleware that wraps node's http request/response.
 `demo/node-cluster/` | Handle parallel HTTP requests by spawning a worker for each CPU.
 `demo/node-summarize/` | Getting article summaries from URLs.
+`demo/passport-db/` | Practice passport authentication using MongoDB and fake verification token.
 `demo/passport-jwt/` | Authenticate with Passport JWT and custom extractor of form `Authorization: Bearer [token]`.
 `demo/proxy-go/` | Go proxy server that attaches an additional Header value.
 `demo/proxy-hot-reload/` | A reverse proxy that flip-flops between routes.
@@ -42,6 +43,7 @@ Path | Description
 `demo/stack-overflow/` | Code snippets used for asking questions on stackoverflow.com.
 `demo/stream-node/` | Proxy server that pipes the request stream into response.
 `demo/tcp-client-server/` | Simple Go TCP server and client.
+`demo/thread/` | Try C++ <thread> standard library.
 `docs/timetables/` | Personal plans for learning a technology or skill.
 `exercises/cryptopals/` | cryptopals.com exercises
 `exercises/kolodny/curry/` | Write a currying function that returns the curry-ed callback.
@@ -57,5 +59,6 @@ Path | Description
 `src/logger-service/` | ELK stack logging server.
 `src/portfolio/` | Website portfolio.
 `src/realworld/` | Go web app implementing the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
+`src/ror4/` | Rotates all bits to the right by 4.
 `src/tackdb/` | tackdb's server implementation.
 `src/words/` | Build a web API server using dotnet and persist data using SQL Server.
