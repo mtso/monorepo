@@ -1,0 +1,29 @@
+class {
+  onCreate() {
+    this.state = {
+      count: 0
+    }
+  }
+
+  increment() {
+    this.setState({count: this.state.count + 1})
+  }
+
+  setState(nextState, callback) {
+    const newState = Object.assign({}, this.state, nextState)
+    this.state = newState
+    callback && callback(newState)
+  }
+}
+
+<item text="hi"/>
+
+var times = ['hey', 'what', 'no', 'why']
+
+<h1>Hello ${input.name}</h1>
+<div>
+  <for(name in times)>
+    <item text="${name}" />
+  </for>
+</div>
+<button on-click('increment')>${state.count}</button>
